@@ -1,0 +1,15 @@
+header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  left: 0;
+  padding: 0 10px;
+  z-index: 10;
+  background-color: #242424;
+  border-bottom: 4px solid #1f1d1d;
+  transition: background-color 0.4s ease;
+  div {
+  }
+}
