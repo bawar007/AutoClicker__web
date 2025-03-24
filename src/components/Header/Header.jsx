@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 // import Navigation from "../Navigation/Navigation";
 import "./Header.scss";
+import Navigation from "../Navigation/Navigation";
 
-const Header = () => {
+const Header = ({ setAlertMessage }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   useEffect(() => {
     const handleScroll = () => {
@@ -15,7 +16,7 @@ const Header = () => {
   return (
     <header style={isScrolled ? { backgroundColor: "#1f1d1d" } : {}}>
       <div>Logo</div>
-      {/* <Navigation  /> */}
+      <Navigation setAlertMessage={setAlertMessage} />
     </header>
   );
 };
