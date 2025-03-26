@@ -1,5 +1,6 @@
 import { FaBolt, FaBrain, FaCogs, FaGamepad } from "react-icons/fa";
 import "./HomePage.scss";
+import Subscription from "../components/Subscription/Subscriptions";
 
 export default function HomePage() {
   return (
@@ -53,7 +54,7 @@ export default function HomePage() {
         className="flex flex-col lg:flex-row gap-8 max-w-5xl w-full py-16 items-center"
         style={{ alignItems: "stretch" }}
       >
-        <SubscriptionCard
+        <Subscription
           duration="1 Miesiąc"
           type="Basic"
           price={9.99}
@@ -63,8 +64,9 @@ export default function HomePage() {
             "✔ Ograniczony czas klikania",
             "✔ Ograniczona ilość kliknięć w ciągu dnia",
           ]}
+          priceId="price_1R6rc0IbcuVy4eFvDaV64ZcP"
         />
-        <SubscriptionCard
+        <Subscription
           duration="1 Miesiąc"
           type="Premium"
           price={49.99}
@@ -74,8 +76,10 @@ export default function HomePage() {
             "✔ Priorytetowe wsparcie techniczne",
             "✔ Brak ograniczeń",
           ]}
+          priceId="price_1R6F7OIbb7FrsP92yS6tHXQg"
         />
-        <SubscriptionCard
+        {/* priceId="price_1R6rcqIbcuVy4eFvFk0jO4tc" */}
+        <Subscription
           duration="1 Rok"
           type="Premium"
           price={549.99}
@@ -85,6 +89,7 @@ export default function HomePage() {
             "✔ Najlepsza oszczędność",
             "✔ Ekskluzywne aktualizacje i bonusy",
           ]}
+          priceId="price_1R6rdiIbcuVy4eFvL2AA5FVA"
           bestValue
         />
       </section>
@@ -99,65 +104,6 @@ function FeatureCard({ icon, title, description, extraText }) {
       <h3 className="text-2xl font-semibold">{title}</h3>
       <p className="text-gray-400 mt-2 text-lg">{description}</p>
       <p className="text-gray-300 mt-2">{extraText}</p>
-    </div>
-  );
-}
-
-function SubscriptionCard({ duration, price, type, description, bestValue }) {
-  return (
-    <div
-      className={`p-6 rounded-2xl shadow-lg w-full text-center ${
-        bestValue ? "border-2 border-green-400 bg-gray-800" : "bg-gray-900"
-      }`}
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        minHeight: "300px",
-        justifyContent: "space-between",
-        padding: "10px",
-        alignItems: "center",
-        paddingBottom: "20px",
-      }}
-    >
-      <h3 className="text-4xl font-bold text-green-400">{duration}</h3>
-      <h2 className="text-2xl font-bold text-green-400">{type}</h2>
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        <p className="text-2xl font-semibold text-white mt-2">{price}zł</p>
-        {price === 549.99 && (
-          <span style={{ color: "gray", fontSize: "12px" }}>
-            To {parseInt(price / 12)}zł/msc oszczędzasz{" "}
-            {parseInt(49.99 * 12 - price)}zł
-          </span>
-        )}
-      </div>
-
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-start",
-          justifyContent: "space-between",
-        }}
-      >
-        {description.map((item, index) => (
-          <p
-            className="text-gray-400 mt-2 text-lg whitespace-pre-line"
-            style={{ marginBottom: "10px" }}
-            key={`description-${index}`}
-          >
-            {item}
-          </p>
-        ))}
-      </div>
-      <button
-        className=" bg-orange-500 hover:pointer hover:bg-orange-600 px-6 text-xlg py-2 rounded-lg text-white font-semibold shadow-md"
-        style={{
-          width: "70%",
-          padding: "10px",
-        }}
-      >
-        Kup Teraz
-      </button>
     </div>
   );
 }

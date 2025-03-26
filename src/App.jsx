@@ -10,6 +10,7 @@ import { auth } from "./firebaseConfig";
 import LoginPage from "./pages/LoginPage";
 import AdminPage from "./pages/AdminPage";
 import HomePage from "./pages/HomePage";
+import SuccessPage from "./pages/SuccessPage";
 
 function App() {
   const [alertMessage, setAlertMessage] = useState({
@@ -96,6 +97,8 @@ function App() {
           />
         </Route>
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/success" element={<SuccessPage />} />
+        {/* <Route path="/cancel" element={<CancelPage />} /> */}
       </Routes>
     </div>
   );

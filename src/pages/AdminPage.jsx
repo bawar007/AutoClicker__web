@@ -5,6 +5,7 @@ import { useNavigate } from "react-router";
 import { OrbitProgress } from "react-loading-indicators";
 
 import "./AdminPage.scss";
+import UserDashboard from "./UserDashboard";
 
 const AdminPage = ({ showMessage }) => {
   const authCtx = useContext(AuthContext);
@@ -156,6 +157,7 @@ const AdminPage = ({ showMessage }) => {
           </div>
         ))}
       </div>
+      <UserDashboard />
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const URL = "http://192.168.91.15:5000";
+const URL = "http://192.168.0.105:5000";
 
 export const saveToken = async (token, uid) => {
   try {
@@ -59,6 +59,21 @@ export const getUserTokens = async (uid) => {
 
     if (response.data.success) return response.data.tokens;
     else return false;
+  } catch (error) {
+    console.error(
+      "Błąd podczas pobierania danych",
+      error.response?.data || error.message
+    );
+    return false;
+  }
+};
+
+export const getUserInfp = async (uid) => {
+  try {
+    const response = await axios.get(`${URL}/getuser/${uid}`);
+    console.log(response.data.user);
+
+    if (response.data.success) return response.data.user;
   } catch (error) {
     console.error(
       "Błąd podczas pobierania danych",
