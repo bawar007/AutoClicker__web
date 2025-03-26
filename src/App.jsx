@@ -9,6 +9,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebaseConfig";
 import LoginPage from "./pages/LoginPage";
 import AdminPage from "./pages/AdminPage";
+import HomePage from "./pages/HomePage";
 
 function App() {
   const [alertMessage, setAlertMessage] = useState({
@@ -88,7 +89,11 @@ function App() {
           path="/"
           element={<MainLayout setAlertMessage={setAlertMessage} />}
         >
-          <Route path="/panel" element={<AdminPage />} />
+          <Route path="/" element={<HomePage />} />
+          <Route
+            path="/panel"
+            element={<AdminPage showMessage={setAlertMessage} />}
+          />
         </Route>
         <Route path="/login" element={<LoginPage />} />
       </Routes>

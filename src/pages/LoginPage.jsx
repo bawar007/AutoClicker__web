@@ -21,7 +21,7 @@ const LoginPage = () => {
       const t = await signInWithPopup(auth, provider);
 
       await authCtx.authenticate(t.user);
-      navigate("/", { replace: true });
+      navigate("/panel", { replace: true });
     } catch (error) {
       console.error("Błąd podczas logowania:", error);
     }

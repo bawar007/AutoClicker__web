@@ -7,8 +7,8 @@ header {
   left: 0;
   padding: 0 10px;
   z-index: 10;
-  background-color: #242424;
-  border-bottom: 4px solid #1f1d1d;
+  background-color: oklch(0.278 0.033 256.848);
+  border-bottom: 4px solid oklch(0.21 0.034 264.665);
   transition: background-color 0.4s ease;
   div {
   }

@@ -1,24 +1,42 @@
 import axios from "axios";
 
+const URL = "http://192.168.91.15:5000";
+
 export const saveToken = async (token, uid) => {
   try {
-    const response = await axios.post("http://localhost:5000/addtoken", {
+    await axios.post(`${URL}/addtoken`, {
       token,
       uid,
     });
-
-    console.log("Token zapisany:", response.data);
+    return true;
   } catch (error) {
     console.error(
       "Błąd podczas zapisu tokena:",
       error.response?.data || error.message
     );
+    return error.response?.data || error.message;
+  }
+};
+
+export const deleteToken = async (token, uid) => {
+  try {
+    await axios.post(`${URL}/deletetoken`, {
+      token,
+      uid,
+    });
+    return true;
+  } catch (error) {
+    console.error(
+      "Błąd podczas usuwania tokena:",
+      error.response?.data || error.message
+    );
+    return error.response?.data || error.message;
   }
 };
 
 export const saveUser = async (user) => {
   try {
-    const response = await axios.post("http://192.168.91.15:5000/saveuser", {
+    const response = await axios.post(`${URL}/saveuser`, {
       uid: user.uid,
       email: user.email,
       displayName: user.displayName || "",
@@ -36,11 +54,9 @@ export const saveUser = async (user) => {
 
 export const getUserTokens = async (uid) => {
   try {
-    const response = await axios.get(
-      `http://192.168.91.15:5000/gettokens/${uid}`
-    );
+    const response = await axios.get(`${URL}/gettokens/${uid}`);
+    console.log(response.data.tokens);
 
-    console.log(response);
     if (response.data.success) return response.data.tokens;
     else return false;
   } catch (error) {

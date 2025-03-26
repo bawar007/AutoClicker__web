@@ -5,13 +5,12 @@ nav {
   height: 100%;
   padding: 5px 0;
   button {
-    height: 100%;
-    margin-left: 10px;
     &:hover {
       cursor: pointer;
     }
   }
-  a {
+  a,
+  .logout__btn {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -21,6 +20,7 @@ nav {
     text-decoration: none;
     color: white;
     transition: background-color 0.5s ease;
+    margin: 0 5px;
     &.active {
       background-color: rgba(255, 255, 255, 0.6);
       color: black;
@@ -28,6 +28,15 @@ nav {
     &:hover {
       background-color: rgba(255, 255, 255, 0.4);
       color: black;
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  nav {
+    display: block;
+    .toggleMenu:is:checked ~ & {
+      display: flex;
     }
   }
 }

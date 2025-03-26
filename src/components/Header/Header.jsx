@@ -14,7 +14,9 @@ const Header = ({ setAlertMessage }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
   return (
-    <header style={isScrolled ? { backgroundColor: "#1f1d1d" } : {}}>
+    <header
+      style={isScrolled ? { backgroundColor: "oklch(0.21 0.034 264.665)" } : {}}
+    >
       <div>Logo</div>
       <Navigation setAlertMessage={setAlertMessage} />
     </header>
