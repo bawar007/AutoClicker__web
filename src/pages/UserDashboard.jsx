@@ -1,43 +1,51 @@
 import React, { useContext, useEffect, useState } from "react";
 
 import { AuthContext } from "../context/auth-context";
-import { getUserInfp } from "../utils/http";
+import { cancelSubHTTP, getUserInfo } from "../utils/subscriptionHTTP";
+import { deleteToken, getUserTokens } from "../utils/http";
+import Subscription from "../components/Subscription/Subscriptions";
 
 const UserDashboard = () => {
   const [subscription, setSubscription] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [tokens, setTokens] = useState([]);
 
   const authCtx = useContext(AuthContext);
   const user = authCtx.currentUser;
   useEffect(() => {
     const h = async () => {
       if (user) {
-        const t = await getUserInfp(user.uid);
+        const t = await getUserInfo(user.uid);
+        console.log(t);
 
         if (t) {
           setSubscription(t.subscription);
         }
       }
     };
+    const userTokens = async () => {
+      const t = await getUserTokens(user.uid);
+      setTokens(t);
+    };
+    userTokens();
     h();
   }, [user]);
 
   const handleCancelSubscription = async () => {
     setLoading(true);
-    const res = await fetch("http://192.168.91.15:5000/cancel-subscription", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ uid: user.uid }),
-    });
+    await cancelSubHTTP(user);
+    if (tokens.length) {
+      tokens.forEach(async (item) => {
+        await deleteToken(item, user.uid);
+      });
+    }
 
-    const data = await res.json();
-    alert(data.message);
     setLoading(false);
-    setSubscription((prev) => ({ ...prev, status: "canceled" }));
+    setSubscription(null);
   };
 
   return (
-    <div>
+    <div style={{ marginTop: "40px" }}>
       {subscription ? (
         <>
           <h2>Twój status subskrypcji: {subscription.type}</h2>
@@ -59,7 +67,7 @@ const UserDashboard = () => {
           )}
         </>
       ) : (
-        <p>Brak aktywnej subskrypcji</p>
+        <Subscription />
       )}
     </div>
   );

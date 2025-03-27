@@ -1,16 +1,12 @@
 import { useContext, useEffect, useState } from "react";
-import {
-  deleteToken,
-  getUserInfp,
-  getUserTokens,
-  saveToken,
-} from "../utils/http";
+import { deleteToken, getUserTokens, saveToken } from "../utils/http";
 import { AuthContext } from "../context/auth-context";
 import { useNavigate } from "react-router";
 import { OrbitProgress } from "react-loading-indicators";
 
 import "./AdminPage.scss";
 import UserDashboard from "./UserDashboard";
+import { getUserInfo } from "../utils/subscriptionHTTP";
 
 const AdminPage = ({ showMessage }) => {
   const authCtx = useContext(AuthContext);
@@ -18,12 +14,13 @@ const AdminPage = ({ showMessage }) => {
   const [token2, setToken2] = useState("");
   const [userTokens, setUserTokens] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [isSub, setIsSub] = useState(false);
 
   const navigate = useNavigate();
 
   const handleAddToken = async (index) => {
     const tokenM = index === 0 ? token : token2;
-    const type = await getUserInfp(authCtx.currentUser.uid);
+    const type = await getUserInfo(authCtx.currentUser.uid);
 
     if (tokenM) {
       const t = await saveToken(
@@ -93,83 +90,106 @@ const AdminPage = ({ showMessage }) => {
     const helper = async () => {
       const tokens = await getUserTokens(authCtx.currentUser.uid);
       if (tokens) setUserTokens(tokens);
+    };
+
+    const helperUser = async () => {
+      const t = await getUserInfo(authCtx.currentUser.uid);
+      if (t.subscription && t.subscription.status === "active") {
+        setIsSub(true);
+      } else setIsSub(false);
+
       setIsLoading(false);
     };
-    if (authCtx.currentUser) helper();
+
+    if (authCtx.currentUser) {
+      helper();
+      helperUser();
+    }
   }, [authCtx.currentUser]);
 
   if (isLoading) return <OrbitProgress size="small" variant="split-disc" />;
 
   return (
-    <div className="admin--panel">
-      <div className="tokens--wrapper">
-        <p>Twoje tokeny {userTokens.length}/2</p>
+    <>
+      <div className="admin--panel">
+        <div className="tokens--wrapper">
+          {!isSub ? (
+            <div className="tokens--wrapperDisabled">
+              <p>Brak aktywnej subskrypcji</p>
+              <span>Wróć do HOME, aby wybrać plan</span>
+            </div>
+          ) : null}
+          <p>Twoje tokeny {userTokens.length}/2</p>
 
-        {["", ""].map((item, index) => (
-          <div className="tokens--wrapper__item" key={`item-${index}`}>
-            {userTokens[index] ? (
-              <div className="tokens--wrapper__item__cos">
-                <div className="left">
-                  <p>{index + 1}</p>
-                </div>
-                <div className="center">
-                  <div className="date">
-                    <p>DATA UTWORZENIA</p>
-                    <span>
-                      {new Date(
-                        userTokens[index].dateCreate
-                      ).toLocaleDateString()}
-                    </span>
+          {["", ""].map((item, index) => (
+            <div className="tokens--wrapper__item" key={`item-${index}`}>
+              {userTokens[index] ? (
+                <div className="tokens--wrapper__item__cos">
+                  <div className="left">
+                    <p>{index + 1}</p>
                   </div>
-                  <div className="tokenID">
-                    <p>ID</p>
-                    <span>{userTokens[index].token}</span>
+                  <div className="center">
+                    <div className="date">
+                      <p>DATA UTWORZENIA</p>
+                      <span>
+                        {new Date(
+                          userTokens[index].dateCreate
+                        ).toLocaleDateString()}
+                      </span>
+                    </div>
+                    <div className="tokenID">
+                      <p>ID</p>
+                      <span>{userTokens[index].token}</span>
+                    </div>
+                  </div>
+                  <div className="btn__wrapper ">
+                    <button
+                      className="btn__wrapper__delete"
+                      onClick={() =>
+                        handleDeleteToken(userTokens[index].token, index)
+                      }
+                    >
+                      USUŃ
+                    </button>
                   </div>
                 </div>
-                <div className="btn__wrapper ">
-                  <button
-                    className="btn__wrapper__delete"
-                    onClick={() =>
-                      handleDeleteToken(userTokens[index].token, index)
-                    }
-                  >
-                    USUŃ
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <div key={`item-${index}`} className="tokens--wrapper__item__cos">
-                <div className="left">
-                  <p>{index + 1}</p>
-                </div>
+              ) : (
+                <div
+                  key={`item-${index}`}
+                  className="tokens--wrapper__item__cos"
+                >
+                  <div className="left">
+                    <p>{index + 1}</p>
+                  </div>
 
-                <div className="center">
-                  <p style={{ marginRight: "5px" }}>ID</p>
-                  <input
-                    type="text"
-                    onChange={(v) => {
-                      if (index === 0) setToken(v.target.value);
-                      else setToken2(v.target.value);
-                    }}
-                    value={index === 0 ? token : token2}
-                  />
-                </div>
+                  <div className="center">
+                    <p style={{ marginRight: "5px" }}>ID</p>
+                    <input
+                      type="text"
+                      onChange={(v) => {
+                        if (index === 0) setToken(v.target.value);
+                        else setToken2(v.target.value);
+                      }}
+                      value={index === 0 ? token : token2}
+                    />
+                  </div>
 
-                <div className="btn__wrapper ">
-                  <button
-                    onClick={() => handleAddToken(index)}
-                    className="btn__wrapper__add"
-                  >
-                    DODAJ
-                  </button>
+                  <div className="btn__wrapper ">
+                    <button
+                      onClick={() => handleAddToken(index)}
+                      className="btn__wrapper__add"
+                    >
+                      DODAJ
+                    </button>
+                  </div>
                 </div>
-              </div>
-            )}
-          </div>
-        ))}
+              )}
+            </div>
+          ))}
+        </div>
       </div>
       <UserDashboard />
-    </div>
+    </>
   );
 };
 

@@ -50,49 +50,7 @@ export default function HomePage() {
       </section>
 
       {/* Pricing Section */}
-      <section
-        className="flex flex-col lg:flex-row gap-8 max-w-5xl w-full py-16 items-center"
-        style={{ alignItems: "stretch" }}
-      >
-        <Subscription
-          duration="1 Miesiąc"
-          type="Basic"
-          price={9.99}
-          description={[
-            "✔ Dostęp do wersji Basic",
-            "✔ Większa szybkość klikania",
-            "✔ Ograniczony czas klikania",
-            "✔ Ograniczona ilość kliknięć w ciągu dnia",
-          ]}
-          priceId="price_1R6rc0IbcuVy4eFvDaV64ZcP"
-        />
-        <Subscription
-          duration="1 Miesiąc"
-          type="Premium"
-          price={49.99}
-          description={[
-            "✔ Pełen dostęp do wersji premium",
-            "✔ Większa szybkość klikania",
-            "✔ Priorytetowe wsparcie techniczne",
-            "✔ Brak ograniczeń",
-          ]}
-          priceId="price_1R6F7OIbb7FrsP92yS6tHXQg"
-        />
-        {/* priceId="price_1R6rcqIbcuVy4eFvFk0jO4tc" */}
-        <Subscription
-          duration="1 Rok"
-          type="Premium"
-          price={549.99}
-          description={[
-            "✔ 11msc + 1 msc GRATIS !!!",
-            "✔ Wszystkie funkcje premium przez cały rok",
-            "✔ Najlepsza oszczędność",
-            "✔ Ekskluzywne aktualizacje i bonusy",
-          ]}
-          priceId="price_1R6rdiIbcuVy4eFvL2AA5FVA"
-          bestValue
-        />
-      </section>
+      <Subscription />
     </div>
   );
 }

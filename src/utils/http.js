@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const URL = "http://192.168.91.15:5000";
+const URL = "http://192.168.0.105:5000";
 
 export const saveToken = async (token, uid, type) => {
   console.log(type);
@@ -61,37 +61,6 @@ export const getUserTokens = async (uid) => {
 
     if (response.data.success) return response.data.tokens;
     else return false;
-  } catch (error) {
-    console.error(
-      "Błąd podczas pobierania danych",
-      error.response?.data || error.message
-    );
-    return false;
-  }
-};
-
-export const getUserInfp = async (uid) => {
-  try {
-    const response = await axios.get(`${URL}/getuser/${uid}`);
-
-    if (response.data.success) {
-      let type;
-      if (
-        response.data.user.subscription.priceId ===
-        "price_1R6F7OIbb7FrsP92yS6tHXQg"
-      )
-        type = "GOLD";
-      console.log(type);
-
-      return {
-        ...response.data.user,
-        subscription: {
-          ...response.data.user.subscription,
-          dateEnd: new Date(response.data.user.subscription.expiresAt),
-          type,
-        },
-      };
-    }
   } catch (error) {
     console.error(
       "Błąd podczas pobierania danych",
