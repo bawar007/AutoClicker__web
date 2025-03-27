@@ -33,7 +33,7 @@ const Subscription = ({
 
     try {
       const res = await fetch(
-        "http://192.168.0.105:5000/create-checkout-session",
+        "http://192.168.91.15:5000/create-checkout-session",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

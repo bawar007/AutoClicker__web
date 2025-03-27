@@ -13,7 +13,7 @@ const UserDashboard = () => {
     const h = async () => {
       if (user) {
         const t = await getUserInfp(user.uid);
-        console.log(t);
+
         if (t) {
           setSubscription(t.subscription);
         }
@@ -24,7 +24,7 @@ const UserDashboard = () => {
 
   const handleCancelSubscription = async () => {
     setLoading(true);
-    const res = await fetch("http://192.168.0.105:5000/cancel-subscription", {
+    const res = await fetch("http://192.168.91.15:5000/cancel-subscription", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ uid: user.uid }),
@@ -38,10 +38,20 @@ const UserDashboard = () => {
 
   return (
     <div>
-      <h2>Twój status subskrypcji:</h2>
       {subscription ? (
         <>
+          <h2>Twój status subskrypcji: {subscription.type}</h2>
+
           <p>Status: {subscription.status ? subscription.status : "Brak"}</p>
+          <p>Wygasa: {subscription.dateEnd.toLocaleDateString()}</p>
+          <p>
+            Pozostało:{" "}
+            {Math.ceil(
+              Math.abs(subscription.dateEnd - new Date()) /
+                (1000 * 60 * 60 * 24)
+            )}
+            dni.
+          </p>
           {subscription.status === "active" && (
             <button onClick={handleCancelSubscription} disabled={loading}>
               {loading ? "Anulowanie..." : "Anuluj subskrypcję"}

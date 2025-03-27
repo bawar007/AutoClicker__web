@@ -1,9 +1,10 @@
 import { useEffect } from "react";
-import { useSearchParams } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 
 const SuccessPage = () => {
   const [searchParams] = useSearchParams();
   const sessionId = searchParams.get("session_id");
+  const nav = useNavigate();
 
   useEffect(() => {
     if (sessionId) {
@@ -16,6 +17,13 @@ const SuccessPage = () => {
     <div>
       <h1>Dziękujemy za zakup!</h1>
       <p>Twoja subskrypcja została aktywowana.</p>
+      <button
+        onClick={() => {
+          nav("/panel", { replace: true });
+        }}
+      >
+        Wróć
+      </button>
     </div>
   );
 };

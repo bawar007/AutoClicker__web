@@ -1,5 +1,10 @@
 import { useContext, useEffect, useState } from "react";
-import { deleteToken, getUserTokens, saveToken } from "../utils/http";
+import {
+  deleteToken,
+  getUserInfp,
+  getUserTokens,
+  saveToken,
+} from "../utils/http";
 import { AuthContext } from "../context/auth-context";
 import { useNavigate } from "react-router";
 import { OrbitProgress } from "react-loading-indicators";
@@ -18,8 +23,14 @@ const AdminPage = ({ showMessage }) => {
 
   const handleAddToken = async (index) => {
     const tokenM = index === 0 ? token : token2;
+    const type = await getUserInfp(authCtx.currentUser.uid);
+
     if (tokenM) {
-      const t = await saveToken(tokenM, authCtx.currentUser.uid);
+      const t = await saveToken(
+        tokenM,
+        authCtx.currentUser.uid,
+        type.subscription.type
+      );
       if (t === true) {
         showMessage({
           isVisible: true,

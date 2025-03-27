@@ -1,12 +1,15 @@
 import axios from "axios";
 
-const URL = "http://192.168.0.105:5000";
+const URL = "http://192.168.91.15:5000";
 
-export const saveToken = async (token, uid) => {
+export const saveToken = async (token, uid, type) => {
+  console.log(type);
+
   try {
     await axios.post(`${URL}/addtoken`, {
       token,
       uid,
+      type,
     });
     return true;
   } catch (error) {
@@ -55,7 +58,6 @@ export const saveUser = async (user) => {
 export const getUserTokens = async (uid) => {
   try {
     const response = await axios.get(`${URL}/gettokens/${uid}`);
-    console.log(response.data.tokens);
 
     if (response.data.success) return response.data.tokens;
     else return false;
@@ -71,9 +73,25 @@ export const getUserTokens = async (uid) => {
 export const getUserInfp = async (uid) => {
   try {
     const response = await axios.get(`${URL}/getuser/${uid}`);
-    console.log(response.data.user);
 
-    if (response.data.success) return response.data.user;
+    if (response.data.success) {
+      let type;
+      if (
+        response.data.user.subscription.priceId ===
+        "price_1R6F7OIbb7FrsP92yS6tHXQg"
+      )
+        type = "GOLD";
+      console.log(type);
+
+      return {
+        ...response.data.user,
+        subscription: {
+          ...response.data.user.subscription,
+          dateEnd: new Date(response.data.user.subscription.expiresAt),
+          type,
+        },
+      };
+    }
   } catch (error) {
     console.error(
       "Błąd podczas pobierania danych",
