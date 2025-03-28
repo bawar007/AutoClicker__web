@@ -9,7 +9,7 @@ const stripePromise = loadStripe(
   "pk_test_51R6F1LIbb7FrsP92jdPrswDqHy7pBrwENP9kXnkD3NBsh04cyir7aOIW4HHGWiVGhMjerqP4IpQaRs3A0AoG1pDk00OSaNltrV"
 );
 
-const URL = "http://192.168.0.105:5000";
+const URL = "https://api.autoclicker.pl";
 
 export const subscribeHTTP = async (user, priceId) => {
   try {
@@ -50,12 +50,10 @@ export const getUserInfo = async (uid) => {
     const response = await axios.get(`${URL}/getuser/${uid}`);
 
     if (response.data.success) {
-      console.log(
-        response.data.user.subscription.priceId ===
-          "price_1R6F7OIbb7FrsP92LBlgrxsR"
-      );
-
-      if (response.data.user.subscription) {
+      if (
+        response.data.user.subscription &&
+        response.data.user.subscription.priceId
+      ) {
         if (
           response.data.user.subscription.priceId ===
             "price_1R6F7OIbb7FrsP92yS6tHXQg" ||

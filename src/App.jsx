@@ -11,6 +11,8 @@ import LoginPage from "./pages/LoginPage";
 import AdminPage from "./pages/AdminPage";
 import HomePage from "./pages/HomePage";
 import SuccessPage from "./pages/SuccessPage";
+import Regulamin from "./pages/Regulamin";
+import PolitykaPrywatnosci from "./pages/PolitykaPrywatnosci/PolitykaPrywatnosci";
 
 function App() {
   const [alertMessage, setAlertMessage] = useState({
@@ -95,9 +97,12 @@ function App() {
             path="/panel"
             element={<AdminPage showMessage={setAlertMessage} />}
           />
+          <Route path="/regulamin" element={<Regulamin />} />
+          <Route path="/policy" element={<PolitykaPrywatnosci />} />
         </Route>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/success" element={<SuccessPage />} />
+
         {/* <Route path="/cancel" element={<CancelPage />} /> */}
       </Routes>
     </div>

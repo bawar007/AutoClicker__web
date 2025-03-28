@@ -124,8 +124,9 @@ const Subscription = () => {
       className="flex flex-col lg:flex-row gap-8 max-w-5xl w-full py-16 items-center"
       style={{ alignItems: "stretch" }}
     >
-      {subsVersions.map((subscription) => (
+      {subsVersions.map((subscription, index) => (
         <div
+          key={`sub-${index}`}
           className={`p-6 rounded-2xl shadow-lg w-full text-center ${
             subscription.bestValue
               ? "border-2 border-green-400 bg-gray-800"

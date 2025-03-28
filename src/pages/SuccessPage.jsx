@@ -8,7 +8,7 @@ const SuccessPage = () => {
 
   useEffect(() => {
     if (sessionId) {
-      console.log("ID sesji:", sessionId);
+      // console.log("ID sesji:", sessionId);
       // Tutaj możesz wysłać zapytanie do backendu, aby potwierdzić płatność
     }
   }, [sessionId]);

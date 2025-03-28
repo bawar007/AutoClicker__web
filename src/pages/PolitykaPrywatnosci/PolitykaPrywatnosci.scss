@@ -1,0 +1,29 @@
+.regulamin--wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 80%;
+  padding-bottom: 50px;
+  h2 {
+    font-size: 24px;
+    margin-bottom: 40px;
+    text-align: center;
+    width: 100%;
+  }
+  h3 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  ol {
+    margin: 10px 0 0 10px;
+    list-style-position: inside;
+
+    list-style-type: decimal;
+    ul {
+      list-style-type: disc;
+      margin: 10px 0 10px 30px;
+    }
+  }
+}
