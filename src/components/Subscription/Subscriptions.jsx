@@ -122,7 +122,7 @@ const Subscription = () => {
   return (
     <section
       className="flex flex-col lg:flex-row gap-8 max-w-5xl w-full py-16 items-center"
-      style={{ alignItems: "stretch" }}
+      style={{ alignItems: "stretch", marginBottom: "20px" }}
     >
       {subsVersions.map((subscription, index) => (
         <div

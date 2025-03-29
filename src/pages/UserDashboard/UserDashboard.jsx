@@ -14,7 +14,12 @@ import Email from "@mui/icons-material/Email";
 import SubAnimation from "../../assets/subAnimation.json";
 import DateEndIcon from "@mui/icons-material/EventRepeat";
 
-import { DateRange, HowToReg, MilitaryTech } from "@mui/icons-material";
+import {
+  DateRange,
+  HowToReg,
+  MilitaryTech,
+  EditCalendar,
+} from "@mui/icons-material";
 
 import "./UserDashboard.scss";
 import Lottie from "lottie-react";
@@ -82,92 +87,135 @@ const UserDashboard = ({ setIsSub, setUserTokens }) => {
   }
 
   return (
-    <div className="user--dashboard">
+    <div
+      className="user--dashboard"
+      style={!subscription ? { flexDirection: "column", width: "100%" } : {}}
+    >
       {userData.load ? (
         <div className="user--dashboard__userWrapper">
-          <div className="right">
-            <h3>TWOJE DANE</h3>
-            <img
-              src={userData.photo}
-              srcSet={userData.photo}
-              alt="PHOTO"
-              width={100}
-            />
-            <div className="right__info">
-              <span className="mySpan">
-                <Email /> {userData.email}
-              </span>
-              <span className="mySpan">
-                <DeleteAccount />
-                {userData.name}
-              </span>
-              <span className="mySpan">
-                <DateEndIcon />
-                {new Date(userData.createdAt).toLocaleDateString()}
-              </span>
+          <div
+            className="left"
+            style={
+              !subscription
+                ? {
+                    width: "100%",
+                    marginBottom: "50px",
+                    borderTopRightRadius: "20px",
+                  }
+                : {}
+            }
+          >
+            <div className="left__info">
+              <h3>TWOJE DANE</h3>
+              {userData.photo && (
+                <img src={userData.photo} alt="PHOTO" width={100} />
+              )}
+              <div className="mySpan">
+                <span className="mySpan__content">
+                  <Email /> {userData.email}
+                  <span className="hovered left--color">Adres e-mail</span>
+                </span>
+              </div>
+              <div className="mySpan">
+                <span className="mySpan__content">
+                  <DeleteAccount />
+                  {userData.name.toLocaleUpperCase()}
+                  <span className="hovered left--color">Nazwa użytkownika</span>
+                </span>
+              </div>
+              <div className="mySpan">
+                <span className="mySpan__content">
+                  <EditCalendar />
+                  {new Date(userData.createdAt).toLocaleDateString()}
+                  <span className="hovered left--color">
+                    Data utworzenia konta
+                  </span>
+                </span>
+              </div>
+              <Button
+                size="medium"
+                onClick={() => {
+                  console.log("delete");
+                }}
+                startIcon={<DeleteAccount />}
+                variant="contained"
+                color="error"
+              >
+                Usuń konto
+              </Button>
             </div>
-
-            <Button
-              size="medium"
-              onClick={() => {
-                console.log("delete");
-              }}
-              startIcon={<DeleteAccount />}
-              variant="contained"
-              color="error"
-            >
-              Usuń konto
-            </Button>
           </div>
-          <div className="bottom">
+          <div
+            className="right"
+            style={!subscription ? { display: "none" } : {}}
+          >
             {subscription ? (
               <>
-                <h3>SUBSKRYPCJA</h3>
-                <div className="anim">
+                <div className="right__info">
+                  <h3>SUBSKRYPCJA</h3>
                   <Lottie
                     animationData={SubAnimation}
-                    width={"50px"}
-                    height={"50px"}
+                    style={{ width: "150px", height: "150px" }}
                     loop={false}
+                    wmode="transparent"
+                    autoplay={true}
+                    className="lottie--animation"
                   />
-                </div>
-                <div className="bottom__info">
-                  <span className="mySpan">
-                    <MilitaryTech />
-                    {subscription.type}
-                    {/* Typ:  */}
-                  </span>
+                  <div className="mySpan">
+                    <span className="mySpan__content">
+                      <MilitaryTech />
+                      {subscription.type}
+                      <span className="hovered right--color">Typ konta</span>
+                    </span>
+                  </div>
 
-                  <span className="mySpan">
-                    <HowToReg />
-                    {subscription.status ? subscription.status : "Brak"}
-                    {/* Status: */}
-                  </span>
-                  <span className="mySpan">
-                    <DateEndIcon /> {subscription.dateEnd.toLocaleDateString()}
-                  </span>
-                  <span className="mySpan">
-                    <DateRange />
-                    {Math.ceil(
-                      Math.abs(subscription.dateEnd - new Date()) /
-                        (1000 * 60 * 60 * 24)
-                    )}
-                    dni
-                  </span>
+                  <div className="mySpan">
+                    <span className="mySpan__content">
+                      <HowToReg />
+                      {subscription.status
+                        ? subscription.status.toLocaleUpperCase()
+                        : "BRAK"}
+                      <span className="hovered right--color">
+                        Status subskypcji
+                      </span>
+                    </span>
+                  </div>
+                  <div className="mySpan">
+                    <span className="mySpan__content">
+                      <DateEndIcon />{" "}
+                      {subscription.dateEnd.toLocaleDateString()}
+                      <span className="hovered right--color">
+                        Data odnowienia subskrypcji
+                      </span>
+                    </span>
+                  </div>
+                  <div className="mySpan">
+                    <span className="mySpan__content">
+                      <DateRange />
+                      {Math.ceil(
+                        Math.abs(subscription.dateEnd - new Date()) /
+                          (1000 * 60 * 60 * 24)
+                      )}
+                      dni
+                      <span className="hovered right--color">
+                        Ilość dni do odnowienia subskrypcji
+                      </span>
+                    </span>
+                  </div>
+                  {subscription.status === "active" && (
+                    <Button
+                      size="large"
+                      onClick={handleCancelSubscription}
+                      startIcon={<DeleteSubIcon />}
+                      loadingPosition="start"
+                      loading={loading}
+                      variant="contained"
+                      color="warning"
+                    >
+                      {loading ? " Anulowanie..." : " Anuluj subskrypcję"}
+                    </Button>
+                  )}
                 </div>
-                {subscription.status === "active" && (
-                  <Button
-                    size="large"
-                    onClick={handleCancelSubscription}
-                    startIcon={<DeleteSubIcon />}
-                    loadingPosition="start"
-                    loading={loading}
-                    variant="contained"
-                    color="warning"
-                  >
-                    {loading ? " Anulowanie..." : " Anuluj subskrypcję"}
-                  </Button>
-                )}
               </>
             ) : null}
           </div>

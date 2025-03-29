@@ -120,20 +120,17 @@ const AdminPage = ({ showMessage }) => {
   if (isLoading) return <OrbitProgress size="small" variant="split-disc" />;
 
   return (
-    <>
+    <div className="admin--page">
       <UserDashboard setIsSub={setIsSub} setUserTokens={setUserTokens} />
       {isSub ? (
         <div className="admin--panel">
           <div className="tokens--wrapper">
-            <p>Twoje tokeny {userTokens.length}/2</p>
+            <p>Zapisane tokeny {userTokens.length}/2</p>
 
             {["", ""].map((item, index) => (
               <div className="tokens--wrapper__item" key={`item-${index}`}>
                 {userTokens[index] ? (
                   <div className="tokens--wrapper__item__cos">
-                    <div className="left">
-                      <p>{index + 1}</p>
-                    </div>
                     <div className="center">
                       <div className="date">
                         <EventAvailable />
@@ -146,6 +143,7 @@ const AdminPage = ({ showMessage }) => {
                       <div className="tokenID">
                         <Token />
                         <span>{userTokens[index].token}</span>
+                        <span className="hovered left--color">ID pluginu</span>
                       </div>
                     </div>
                     <div className="btn__wrapper ">
@@ -159,7 +157,7 @@ const AdminPage = ({ showMessage }) => {
                         startIcon={<DeleteIcon />}
                         variant="contained"
                       >
-                        Usuń
+                        Delete
                       </Button>
                     </div>
                   </div>
@@ -168,10 +166,6 @@ const AdminPage = ({ showMessage }) => {
                     key={`item-${index}`}
                     className="tokens--wrapper__item__cos"
                   >
-                    <div className="left">
-                      <p>{index + 1}</p>
-                    </div>
-
                     <div className="center">
                       <Token />
                       <input
@@ -204,7 +198,7 @@ const AdminPage = ({ showMessage }) => {
           </div>
         </div>
       ) : null}
-    </>
+    </div>
   );
 };
 
