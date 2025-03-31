@@ -99,6 +99,5 @@ export const updateSubscription = async (newPriceId, user) => {
     });
   } catch (error) {
     console.error("Błąd podczas zmiany subskrypcji:", error);
-    alert(error.response?.data?.error || "Wystąpił błąd");
   }
 };

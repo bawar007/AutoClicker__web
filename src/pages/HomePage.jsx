@@ -1,11 +1,13 @@
 import { FaBolt, FaBrain, FaCogs, FaGamepad } from "react-icons/fa";
 import "./HomePage.scss";
 import Subscription from "../components/Subscription/Subscriptions";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import homeAnimation from "../assets/HomeAnimattion.json";
+import Lottie from "lottie-react";
 
 export default function HomePage() {
   return (
     <div className="home--wrapper">
-      {/* Hero Section */}
       <section className="bg-gray-900 home--wrapper__headerSection">
         <h1
           className="text-5xl font-extrabold text-green-400 leading-tight "
@@ -13,9 +15,16 @@ export default function HomePage() {
         >
           Zautomatyzuj Klikanie i Pracuj Lepiej !
         </h1>
+        <Lottie
+          animationData={homeAnimation}
+          style={{ width: "100%", height: "250px" }}
+          loop
+          wmode="transparent"
+          autoplay
+        />
         <p
           className="mt-4 text-3xl text-green-300 "
-          style={{ marginBottom: "10px" }}
+          style={{ marginBottom: "10px", marginTop: "20px" }}
         >
           Masz dość siedzenia przed ekranem i spedzania wielu godzin na klikaniu
           ?

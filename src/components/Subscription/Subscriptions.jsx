@@ -122,7 +122,12 @@ const Subscription = () => {
   return (
     <section
       className="flex flex-col lg:flex-row gap-8 max-w-5xl w-full py-16 items-center"
-      style={{ alignItems: "stretch", marginBottom: "20px" }}
+      style={{
+        alignItems: "stretch",
+        marginBottom: "20px",
+        maxWidth: "none",
+        width: "90%",
+      }}
     >
       {subsVersions.map((subscription, index) => (
         <div
@@ -140,6 +145,8 @@ const Subscription = () => {
             padding: "10px",
             alignItems: "center",
             paddingBottom: "20px",
+
+            boxShadow: "0px 0px 10px black",
           }}
         >
           <h3 className="text-4xl font-bold text-green-400">

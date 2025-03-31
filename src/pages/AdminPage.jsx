@@ -4,6 +4,11 @@ import { AuthContext } from "../context/auth-context";
 import { useNavigate } from "react-router";
 import { OrbitProgress } from "react-loading-indicators";
 import SaveIcon from "@mui/icons-material/Save";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Button } from "@mui/material";
 
@@ -21,8 +26,27 @@ const AdminPage = ({ showMessage }) => {
   const [userTokens, setUserTokens] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [isSub, setIsSub] = useState(false);
+  const [dialog, setDialog] = useState({
+    open: false,
+    title: "",
+    description: "",
+    callAccept: () => {},
+  });
 
   const navigate = useNavigate();
+
+  const handleClickOpenDeleteToken = (token) => {
+    setDialog((prev) => ({
+      ...prev,
+      open: true,
+      title: "Dodaj token",
+      description: "Czy na pewno chcesz usunąć token?",
+      callAccept: () => {
+        handleDeleteToken(token);
+        handleClose();
+      },
+    }));
+  };
 
   const handleAddToken = async (index) => {
     const tokenM = index === 0 ? token : token2;
@@ -90,6 +114,16 @@ const AdminPage = ({ showMessage }) => {
     }
   };
 
+  const handleClose = () => {
+    setDialog((prev) => ({
+      ...prev,
+      open: false,
+      title: "",
+      description: "",
+      callAccept: () => {},
+    }));
+  };
+
   useEffect(() => {
     if (authCtx.currentUser === false) {
       navigate("/login", { replace: true });
@@ -151,7 +185,7 @@ const AdminPage = ({ showMessage }) => {
                         size="medium"
                         color="warning"
                         onClick={() =>
-                          handleDeleteToken(userTokens[index].token, index)
+                          handleClickOpenDeleteToken(userTokens[index].token)
                         }
                         loadingPosition="start"
                         startIcon={<DeleteIcon />}
@@ -182,7 +216,9 @@ const AdminPage = ({ showMessage }) => {
                       <Button
                         size="medium"
                         color="success"
-                        onClick={() => handleAddToken(index)}
+                        onClick={() => {
+                          handleAddToken(index);
+                        }}
                         loadingPosition="start"
                         startIcon={<SaveIcon />}
                         variant="contained"
@@ -198,6 +234,26 @@ const AdminPage = ({ showMessage }) => {
           </div>
         </div>
       ) : null}
+
+      <Dialog
+        open={dialog.open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{dialog.title}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            {dialog.description}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={dialog.callAccept}>TAK</Button>
+          <Button onClick={handleClose} autoFocus>
+            NIE
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

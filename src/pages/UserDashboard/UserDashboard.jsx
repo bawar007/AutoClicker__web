@@ -7,6 +7,11 @@ import Subscription from "../../components/Subscription/Subscriptions";
 import { OrbitProgress } from "react-loading-indicators";
 
 import { Button } from "@mui/material";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 import DeleteSubIcon from "@mui/icons-material/Cancel";
 import DeleteAccount from "@mui/icons-material/AccountCircle";
 
@@ -36,6 +41,48 @@ const UserDashboard = ({ setIsSub, setUserTokens }) => {
     createdAt: null,
     load: false,
   });
+  const [dialog, setDialog] = useState({
+    open: false,
+    title: "",
+    description: "",
+    callAccept: () => {},
+  });
+
+  const handleClickOpenDeleteAccound = () => {
+    setDialog((prev) => ({
+      ...prev,
+      open: true,
+      title: "Usuń konto",
+      description: "Czy na pewno chcesz usunąć konto?",
+      callAccept: () => {
+        console.log("DELETE ACCOUNT");
+        handleClose();
+      },
+    }));
+  };
+
+  const handleClickOpenDeleteSubscription = () => {
+    setDialog((prev) => ({
+      ...prev,
+      open: true,
+      title: "Anuluj subskrypcję",
+      description: "Czy na pewno chcesz anulować subskrypcję?",
+      callAccept: () => {
+        handleCancelSubscription();
+        handleClose();
+      },
+    }));
+  };
+
+  const handleClose = () => {
+    setDialog((prev) => ({
+      ...prev,
+      open: false,
+      title: "",
+      description: "",
+      callAccept: () => {},
+    }));
+  };
 
   const authCtx = useContext(AuthContext);
   const user = authCtx.currentUser;
@@ -44,10 +91,10 @@ const UserDashboard = ({ setIsSub, setUserTokens }) => {
     const h = async () => {
       if (user) {
         setUserData({
-          email: user.email ? user.email : "",
-          name: user.displayName ? user.displayName : "",
-          photo: user.photoURL ? user.photoURL : "",
-          createdAt: user.metadata ? user.metadata.creationTime : null,
+          email: user.email || "",
+          name: user.displayName || "",
+          photo: user.photoURL || false,
+          createdAt: user.metadata.creationTime || null,
           load: true,
         });
         const t = await getUserInfo(user.uid);
@@ -82,14 +129,22 @@ const UserDashboard = ({ setIsSub, setUserTokens }) => {
     setSubscription(null);
   };
 
-  if (dataLoad) {
+  if (dataLoad || !userData.load) {
     return <OrbitProgress />;
   }
 
   return (
     <div
       className="user--dashboard"
-      style={!subscription ? { flexDirection: "column", width: "100%" } : {}}
+      style={
+        !subscription
+          ? {
+              flexDirection: "column",
+              width: "100%",
+              backgroundColor: "#006494",
+            }
+          : {}
+      }
     >
       {userData.load ? (
         <div className="user--dashboard__userWrapper">
@@ -107,9 +162,14 @@ const UserDashboard = ({ setIsSub, setUserTokens }) => {
           >
             <div className="left__info">
               <h3>TWOJE DANE</h3>
-              {userData.photo && (
-                <img src={userData.photo} alt="PHOTO" width={100} />
-              )}
+              {userData.photo ? (
+                <img
+                  src={userData.photo}
+                  alt="PHOTO"
+                  width={100}
+                  referrerPolicy="no-referrer"
+                />
+              ) : null}
               <div className="mySpan">
                 <span className="mySpan__content">
                   <Email /> {userData.email}
@@ -134,9 +194,7 @@ const UserDashboard = ({ setIsSub, setUserTokens }) => {
               </div>
               <Button
                 size="medium"
-                onClick={() => {
-                  console.log("delete");
-                }}
+                onClick={handleClickOpenDeleteAccound}
                 startIcon={<DeleteAccount />}
                 variant="contained"
                 color="error"
@@ -205,7 +263,7 @@ const UserDashboard = ({ setIsSub, setUserTokens }) => {
                   {subscription.status === "active" && (
                     <Button
                       size="large"
-                      onClick={handleCancelSubscription}
+                      onClick={handleClickOpenDeleteSubscription}
                       startIcon={<DeleteSubIcon />}
                       loadingPosition="start"
                       loading={loading}
@@ -222,6 +280,26 @@ const UserDashboard = ({ setIsSub, setUserTokens }) => {
         </div>
       ) : null}
       {subscription ? null : <Subscription />}
+
+      <Dialog
+        open={dialog.open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{dialog.title}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            {dialog.description}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={dialog.callAccept}>TAK</Button>
+          <Button onClick={handleClose} autoFocus>
+            NIE
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
