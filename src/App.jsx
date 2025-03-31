@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import "./App.scss";
 import { Route, Routes } from "react-router";
-import { Alert, AlertTitle } from "@mui/material";
+import { Alert, AlertTitle, Snackbar } from "@mui/material";
 import { motion } from "framer-motion";
 import MainLayout from "./layouts/MainLayout";
 import { AuthContext } from "./context/auth-context";
@@ -22,12 +22,18 @@ function App() {
     message: "",
   });
 
+  const [snackMessage, setSnackMessage] = useState({
+    isVisible: false,
+    title: "",
+    type: "",
+    message: "",
+  });
+
   const authCtx = useContext(AuthContext);
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser !== null) {
+      if (currentUser !== null || authCtx.currentUser === null) {
         authCtx.authenticate(currentUser);
-
         setAlertMessage({
           isVisible: true,
           title: "",
@@ -87,6 +93,40 @@ function App() {
           </Alert>
         </motion.div>
       )}
+      <Snackbar
+        open={snackMessage.isVisible}
+        autoHideDuration={5000}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        sx={{ minWidth: "250px" }}
+        key="snack--message"
+        onClose={() => {
+          setSnackMessage({
+            isVisible: false,
+            title: "",
+            type: "",
+            message: "",
+          });
+        }}
+      >
+        <Alert
+          onClose={() => {
+            setSnackMessage({
+              isVisible: false,
+              title: "",
+              type: "",
+              message: "",
+            });
+          }}
+          severity={snackMessage.type}
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
+          {snackMessage.title.length ? (
+            <AlertTitle>{snackMessage.title}</AlertTitle>
+          ) : null}
+          {snackMessage.message}
+        </Alert>
+      </Snackbar>
       <Routes>
         <Route
           path="/"
@@ -95,7 +135,12 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route
             path="/panel"
-            element={<AdminPage showMessage={setAlertMessage} />}
+            element={
+              <AdminPage
+                showMessage={setAlertMessage}
+                setSnackMessage={setSnackMessage}
+              />
+            }
           />
           <Route path="/regulamin" element={<Regulamin />} />
           <Route path="/policy" element={<PolitykaPrywatnosci />} />

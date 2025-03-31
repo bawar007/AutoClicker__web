@@ -26,3 +26,30 @@ footer {
   justify-content: space-evenly;
   align-items: center;
 }
+
+.switchSub {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .switches {
+    display: flex;
+    flex-direction: row;
+    padding: 2px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    .item--active {
+      background-color: #5469d4;
+      color: white;
+    }
+    button {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+  }
+}
+
+.subs--hub {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+}

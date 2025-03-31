@@ -31,7 +31,7 @@ const LoginPage = () => {
     const provider = new FacebookAuthProvider();
 
     try {
-      await signInWithPopup(auth, provider).then((res) => console.log(res));
+      await signInWithPopup(auth, provider);
     } catch (error) {
       console.error("Błąd podczas logowania:", error);
     }

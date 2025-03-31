@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { deleteToken, getUserTokens, saveToken } from "../utils/http";
+import { deleteToken, saveToken } from "../utils/http";
 import { AuthContext } from "../context/auth-context";
 import { useNavigate } from "react-router";
 import { OrbitProgress } from "react-loading-indicators";
@@ -10,14 +10,13 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Button } from "@mui/material";
+import { Button, Collapse, Snackbar, Alert, AlertTitle } from "@mui/material";
 
 import "./AdminPage.scss";
 import UserDashboard from "./UserDashboard/UserDashboard";
-import { getUserInfo } from "../utils/subscriptionHTTP";
 import { EventAvailable, Token } from "@mui/icons-material";
 
-const AdminPage = ({ showMessage }) => {
+const AdminPage = ({ setSnackMessage }) => {
   const authCtx = useContext(AuthContext);
   const [token, setToken] = useState("");
   const [tokenLoading, setTokenLoading] = useState(false);
@@ -50,7 +49,7 @@ const AdminPage = ({ showMessage }) => {
 
   const handleAddToken = async (index) => {
     const tokenM = index === 0 ? token : token2;
-    const type = await getUserInfo(authCtx.currentUser.uid);
+    const type = authCtx.currentUserInfo.userInfo;
     if (index === 0) setTokenLoading(true);
     if (index === 1) setToken2Loading(true);
     if (tokenM) {
@@ -60,7 +59,7 @@ const AdminPage = ({ showMessage }) => {
         type.subscription.type
       );
       if (t === true) {
-        showMessage({
+        setSnackMessage({
           isVisible: true,
           title: "TOKEN",
           type: "success",
@@ -73,7 +72,7 @@ const AdminPage = ({ showMessage }) => {
         setToken("");
         setToken2("");
       } else {
-        showMessage({
+        setSnackMessage({
           isVisible: true,
           title: "TOKEN",
           type: "error",
@@ -81,7 +80,7 @@ const AdminPage = ({ showMessage }) => {
         });
       }
     } else {
-      showMessage({
+      setSnackMessage({
         isVisible: true,
         title: "TOKEN",
         type: "error",
@@ -98,14 +97,14 @@ const AdminPage = ({ showMessage }) => {
     if (t === true) {
       const newTokens = userTokens.filter((item) => item.token !== token);
       setUserTokens(newTokens);
-      showMessage({
+      setSnackMessage({
         isVisible: true,
         title: "TOKEN",
         type: "success",
         message: "Token usunięty",
       });
     } else {
-      showMessage({
+      setSnackMessage({
         isVisible: true,
         title: "TOKEN",
         type: "error",
@@ -132,12 +131,12 @@ const AdminPage = ({ showMessage }) => {
 
   useEffect(() => {
     const helper = async () => {
-      const tokens = await getUserTokens(authCtx.currentUser.uid);
+      const tokens = authCtx.currentUserInfo.userTokens;
       if (tokens) setUserTokens(tokens);
     };
 
     const helperUser = async () => {
-      const t = await getUserInfo(authCtx.currentUser.uid);
+      const t = authCtx.currentUserInfo.userInfo;
       if (t.subscription && t.subscription.status === "active") {
         setIsSub(true);
       } else setIsSub(false);
@@ -145,21 +144,25 @@ const AdminPage = ({ showMessage }) => {
       setIsLoading(false);
     };
 
-    if (authCtx.currentUser) {
+    if (authCtx.currentUserInfo) {
       helper();
       helperUser();
     }
-  }, [authCtx.currentUser]);
+  }, [authCtx.currentUserInfo]);
 
   if (isLoading) return <OrbitProgress size="small" variant="split-disc" />;
 
   return (
     <div className="admin--page">
-      <UserDashboard setIsSub={setIsSub} setUserTokens={setUserTokens} />
+      <UserDashboard
+        setIsSub={setIsSub}
+        setUserTokens={setUserTokens}
+        setSnackMessage={setSnackMessage}
+      />
       {isSub ? (
         <div className="admin--panel">
           <div className="tokens--wrapper">
-            <p>Zapisane tokeny {userTokens.length}/2</p>
+            <p>tokeny {userTokens.length}/2</p>
 
             {["", ""].map((item, index) => (
               <div className="tokens--wrapper__item" key={`item-${index}`}>

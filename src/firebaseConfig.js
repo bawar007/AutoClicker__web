@@ -9,13 +9,13 @@ import { getAuth } from "firebase/auth";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyBBYgUPOXioK2BQLVQJtkoziL2NLRVBlqs",
-  authDomain: "autoclicker-24c73.firebaseapp.com",
-  projectId: "autoclicker-24c73",
-  storageBucket: "autoclicker-24c73.firebasestorage.app",
-  messagingSenderId: "566161943710",
-  appId: "1:566161943710:web:dede09dae16f87ce539f8f",
-  measurementId: "G-ZPN3ZNQHPD",
+  apiKey: "AIzaSyAc8jPAwn3_uYK9gwuftpDisoio8PqSqro",
+  authDomain: "autoclicker2-4943d.firebaseapp.com",
+  projectId: "autoclicker2-4943d",
+  storageBucket: "autoclicker2-4943d.firebasestorage.app",
+  messagingSenderId: "638673608223",
+  appId: "1:638673608223:web:95e9c362c77050d7d7ff2a",
+  measurementId: "G-6L59Y4DVZC",
 };
 
 // Initialize Firebase
