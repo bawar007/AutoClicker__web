@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 
 import { AuthContext } from "../../context/auth-context";
-import { cancelSubHTTP } from "../../utils/subscriptionHTTP";
-import { deleteToken } from "../../utils/http";
+
 import Subscription from "../../components/Subscription/Subscriptions";
 import { OrbitProgress } from "react-loading-indicators";
 
@@ -12,7 +11,6 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import DeleteSubIcon from "@mui/icons-material/Cancel";
 import DeleteAccount from "@mui/icons-material/AccountCircle";
 
 import Email from "@mui/icons-material/Email";
@@ -29,11 +27,9 @@ import {
 import "./UserDashboard.scss";
 import Lottie from "lottie-react";
 
-const UserDashboard = ({ setIsSub, setUserTokens, setSnackMessage }) => {
+const UserDashboard = ({ setSnackMessage }) => {
   const [subscription, setSubscription] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [tokens, setTokens] = useState([]);
-  const [dataLoad, setDataLoad] = useState(true);
+
   const [userData, setUserData] = useState({
     email: "",
     name: "",
@@ -61,19 +57,6 @@ const UserDashboard = ({ setIsSub, setUserTokens, setSnackMessage }) => {
           type: "success",
           message: "Konto zostało usunięte",
         });
-        handleClose();
-      },
-    }));
-  };
-
-  const handleClickOpenDeleteSubscription = () => {
-    setDialog((prev) => ({
-      ...prev,
-      open: true,
-      title: "Anuluj subskrypcję",
-      description: "Czy na pewno chcesz anulować subskrypcję?",
-      callAccept: () => {
-        handleCancelSubscription();
         handleClose();
       },
     }));
@@ -118,39 +101,11 @@ const UserDashboard = ({ setIsSub, setUserTokens, setSnackMessage }) => {
         }
       }
     };
-    const userTokens = async () => {
-      const t = authCtx.currentUserInfo.userTokens;
-      setTokens(t);
-      setDataLoad(false);
-    };
-    userTokens();
+
     h();
   }, [authCtx.currentUserInfo, authCtx.currentUser]);
 
-  const handleCancelSubscription = async () => {
-    setLoading(true);
-    await cancelSubHTTP(authCtx.currentUser);
-    if (tokens.length) {
-      tokens.forEach(async (item) => {
-        await deleteToken(item.token, authCtx.currentUser.uid);
-      });
-    }
-
-    setSnackMessage({
-      isVisible: true,
-      title: "SUBSKRYPCJA",
-      type: "success",
-      message: "Subskrypcja została anulowana",
-    });
-
-    setIsSub(false);
-    setUserTokens([]);
-    setTokens([]);
-    setLoading(false);
-    setSubscription(null);
-  };
-
-  if (dataLoad || !userData.load) {
+  if (!userData.load) {
     return <OrbitProgress />;
   }
 
@@ -281,13 +236,15 @@ const UserDashboard = ({ setIsSub, setUserTokens, setSnackMessage }) => {
                       </span>
                     </span>
                   </div>
-                  {subscription.status === "active" && (
+                  {subscription.status === "active" ||
+                  subscription.status === "canceled" ? (
                     <>
                       <Button
                         size="large"
                         onClick={() => {
                           window.open(
-                            "https://billing.stripe.com/p/login/test_8wM5mV5ka2bAdm8000",
+                            "https://billing.stripe.com/p/login/test_8wM5mV5ka2bAdm8000?prefilled_email=" +
+                              authCtx.currentUser.email,
                             "_blank"
                           );
                         }}
@@ -296,26 +253,17 @@ const UserDashboard = ({ setIsSub, setUserTokens, setSnackMessage }) => {
                       >
                         Zarządzaj subskrypcją
                       </Button>
-                      <Button
-                        size="large"
-                        onClick={handleClickOpenDeleteSubscription}
-                        startIcon={<DeleteSubIcon />}
-                        loadingPosition="start"
-                        loading={loading}
-                        variant="contained"
-                        color="warning"
-                      >
-                        {loading ? " Anulowanie..." : " Anuluj subskrypcję"}
-                      </Button>
                     </>
-                  )}
+                  ) : null}
                 </div>
               </>
             ) : null}
           </div>
         </div>
       ) : null}
-      {subscription ? null : <Subscription />}
+      {subscription && subscription.status === "active" ? null : (
+        <Subscription />
+      )}
 
       <Dialog
         open={dialog.open}

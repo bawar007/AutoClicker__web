@@ -1,14 +1,19 @@
 import { FaBolt, FaBrain, FaCogs, FaGamepad } from "react-icons/fa";
 import "./HomePage.scss";
 import Subscription from "../components/Subscription/Subscriptions";
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import homeAnimation from "../assets/HomeAnimattion.json";
 import Lottie from "lottie-react";
+// import { useContext } from "react";
+// import { AuthContext } from "../context/auth-context";
 
 export default function HomePage() {
+  // const authCtx = useContext(AuthContext);
   return (
     <div className="home--wrapper">
-      <section className="bg-gray-900 home--wrapper__headerSection">
+      <section
+        className="bg-gray-900 home--wrapper__headerSection"
+        style={{ boxShadow: "0px 0px 10px black" }}
+      >
         <h1
           className="text-5xl font-extrabold text-green-400 leading-tight "
           style={{ marginBottom: "20px" }}
@@ -35,7 +40,6 @@ export default function HomePage() {
           oszczędzisz bardzo dużo czasu, który możesz przeznaczyć na SIEBIE !!!
         </p>
       </section>
-
       {/* Features Section */}
       <section className="features--section">
         <FeatureCard
@@ -57,16 +61,33 @@ export default function HomePage() {
           extraText="✔ AutoClicker poprawia Twoją wydajność w pracy, zapewniając szybsze reakcje."
         />
       </section>
-
       {/* Pricing Section */}
-      <Subscription />
+      <div style={{ width: "100%" }}>
+        <Subscription fromHome={true} />
+      </div>
+      {/* {authCtx.currentUserInfo && authCtx.currentUser ? (
+        <stripe-pricing-table
+          pricing-table-id="prctbl_1R8gekIbb7FrsP92oTIHQt7D"
+          publishable-key="pk_test_51R6F1LIbb7FrsP92jdPrswDqHy7pBrwENP9kXnkD3NBsh04cyir7aOIW4HHGWiVGhMjerqP4IpQaRs3A0AoG1pDk00OSaNltrV"
+          className="w-full h-full"
+          style={{ marginTop: "50px" }}
+          customer-email={authCtx.currentUser.email}
+          customer-session-client-secret={
+            authCtx.currentUserInfo.userInfo.clientSecret
+          }
+        ></stripe-pricing-table>
+      ) : null}
+      {console.log(authCtx.currentUser.email)} */}
     </div>
   );
 }
 
 function FeatureCard({ icon, title, description, extraText }) {
   return (
-    <div className="flex flex-col items-center bg-gray-800 p-6 rounded-2xl shadow-lg text-center features--section__item">
+    <div
+      className="flex flex-col items-center bg-gray-800 p-6 rounded-2xl shadow-lg text-center features--section__item"
+      style={{ boxShadow: "0px 0px 10px black" }}
+    >
       <div className="text-green-400 mb-4">{icon}</div>
       <h3 className="text-2xl font-semibold">{title}</h3>
       <p className="text-gray-400 mt-2 text-lg">{description}</p>

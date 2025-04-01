@@ -33,18 +33,6 @@ export const subscribeHTTP = async (user, priceId) => {
   }
 };
 
-export const cancelSubHTTP = async (user) => {
-  try {
-    await axios.post(
-      `${URL}/cancel-subscription`,
-      { uid: user.uid },
-      { headers: { "Content-Type": "application/json" } }
-    );
-  } catch (error) {
-    console.error(error);
-  }
-};
-
 export const getUserInfo = async (uid) => {
   try {
     const response = await axios.get(`${URL}/getuser/${uid}`);
@@ -56,9 +44,9 @@ export const getUserInfo = async (uid) => {
       ) {
         if (
           response.data.user.subscription.priceId ===
-            "price_1R6F7OIbb7FrsP92yS6tHXQg" ||
+            "price_1R8gYqIbb7FrsP92WbLj8sf1" ||
           response.data.user.subscription.priceId ===
-            "price_1R6F7OIbb7FrsP92LBlgrxsR"
+            "price_1R8gZEIbb7FrsP92TxwOZ4rV"
         ) {
           return {
             ...response.data.user,
@@ -88,16 +76,5 @@ export const getUserInfo = async (uid) => {
       error.response?.data || error.message
     );
     return false;
-  }
-};
-
-export const updateSubscription = async (newPriceId, user) => {
-  try {
-    await axios.post(`${URL}/update-subscription`, {
-      newPriceId,
-      uid: user.uid, // UID użytkownika z Firebase Auth
-    });
-  } catch (error) {
-    console.error("Błąd podczas zmiany subskrypcji:", error);
   }
 };
