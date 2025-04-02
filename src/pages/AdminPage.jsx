@@ -153,7 +153,7 @@ const AdminPage = ({ setSnackMessage }) => {
   if (isLoading) return <OrbitProgress size="small" variant="split-disc" />;
 
   return (
-    <div className="admin--page">
+    <div className="admin--page animate-fade-right">
       <UserDashboard
         setIsSub={setIsSub}
         setUserTokens={setUserTokens}

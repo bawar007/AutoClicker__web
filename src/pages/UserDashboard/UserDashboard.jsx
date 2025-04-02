@@ -26,10 +26,10 @@ import {
 
 import "./UserDashboard.scss";
 import Lottie from "lottie-react";
+import axios from "axios";
 
 const UserDashboard = ({ setSnackMessage }) => {
   const [subscription, setSubscription] = useState(false);
-
   const [userData, setUserData] = useState({
     email: "",
     name: "",
@@ -44,6 +44,8 @@ const UserDashboard = ({ setSnackMessage }) => {
     callAccept: () => {},
   });
 
+  const authCtx = useContext(AuthContext);
+
   const handleClickOpenDeleteAccound = () => {
     setDialog((prev) => ({
       ...prev,
@@ -51,15 +53,30 @@ const UserDashboard = ({ setSnackMessage }) => {
       title: "Usuń konto",
       description: "Czy na pewno chcesz usunąć konto?",
       callAccept: () => {
-        setSnackMessage({
-          isVisible: true,
-          title: "KONTO",
-          type: "success",
-          message: "Konto zostało usunięte",
-        });
+        handleDeleteAccound();
         handleClose();
       },
     }));
+  };
+
+  const handleDeleteAccound = async () => {
+    const uid = authCtx.currentUser.uid;
+    if (uid) {
+      const response = await axios.get(
+        `https://api.autoclicker.pl/delete/${uid}`
+      );
+
+      if (response.data.success) {
+        authCtx.logout();
+      }
+    }
+
+    setSnackMessage({
+      isVisible: true,
+      title: "KONTO",
+      type: "success",
+      message: "Konto zostało usunięte",
+    });
   };
 
   const handleClose = (who, text) => {
@@ -80,8 +97,6 @@ const UserDashboard = ({ setSnackMessage }) => {
       });
     }
   };
-
-  const authCtx = useContext(AuthContext);
 
   useEffect(() => {
     const h = async () => {
@@ -104,6 +119,14 @@ const UserDashboard = ({ setSnackMessage }) => {
 
     h();
   }, [authCtx.currentUserInfo, authCtx.currentUser]);
+
+  useEffect(() => {
+    if (window.myAutoClickerPlugin) {
+      console.log("Plugin jest zainstalowany!");
+    } else {
+      console.log("Plugin NIE jest zainstalowany.");
+    }
+  }, []);
 
   if (!userData.load) {
     return <OrbitProgress />;

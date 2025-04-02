@@ -47,7 +47,7 @@ const Navigation = ({ setAlertMessage, bgColor }) => {
             PANEL
           </NavLink>
           <button onClick={handleLogout} className="logout__btn">
-            Log out
+            Wyloguj
           </button>
         </div>
       </div>
