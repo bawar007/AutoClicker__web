@@ -1,20 +1,22 @@
 import { useContext, useEffect, useState } from "react";
 import "./App.scss";
-import { Route, Routes } from "react-router";
+import { Route, Routes, Navigate } from "react-router";
 import { Alert, AlertTitle, Snackbar } from "@mui/material";
 import { motion } from "framer-motion";
 import MainLayout from "./layouts/MainLayout";
 import { AuthContext } from "./context/auth-context";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebaseConfig";
-import LoginPage from "./pages/LoginPage";
-import AdminPage from "./pages/AdminPage";
-import HomePage from "./pages/HomePage";
-import SuccessPage from "./pages/SuccessPage";
-import Regulamin from "./pages/Regulamin";
+import LoginPage from "./pages/LoginPage/LoginPage";
+import AdminPage from "./pages/AdminPage/AdminPage";
+import HomePage from "./pages/HomePage/HomePage";
+import SuccessPage from "./pages/SuccessPage/SuccessPage";
+import Regulamin from "./pages/Regulamin/Regulamin";
 import PolitykaPrywatnosci from "./pages/PolitykaPrywatnosci/PolitykaPrywatnosci";
 import DashboardRedirect from "./pages/DashboardRedirect/DashboardRedirect";
-import CancelPage from "./pages/CancelPage";
+import CancelPage from "./pages/CancelPage/CancelPage";
+import ContactPage from "./pages/ContactPage/ContactPage";
+import FaqPage from "./pages/FaqPage/FaqPage";
 
 function App() {
   const [alertMessage, setAlertMessage] = useState({
@@ -33,15 +35,19 @@ function App() {
 
   const authCtx = useContext(AuthContext);
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser !== null || authCtx.currentUser === null) {
-        authCtx.authenticate(currentUser);
-        setAlertMessage({
-          isVisible: true,
-          title: "",
-          type: "success",
-          message: "Zalogowano !!",
-        });
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser !== null || authCtx.currentUser) {
+        const t = await authCtx.authenticate(currentUser);
+        console.log("User");
+
+        if (t) {
+          setAlertMessage({
+            isVisible: true,
+            title: "",
+            type: "success",
+            message: "Zalogowano !!",
+          });
+        }
       } else {
         authCtx.logout();
       }
@@ -146,11 +152,15 @@ function App() {
           />
           <Route path="/regulamin" element={<Regulamin />} />
           <Route path="/policy" element={<PolitykaPrywatnosci />} />
+          <Route path="/success" element={<SuccessPage />} />
+          <Route path="/cancel" element={<CancelPage />} />
+          <Route path="/dashboard" element={<DashboardRedirect />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/faq" element={<FaqPage />} />
         </Route>
-        <Route path="/dashboard" element={<DashboardRedirect />} />
+
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/success" element={<SuccessPage />} />
-        <Route path="/cancel" element={<CancelPage />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </div>
   );

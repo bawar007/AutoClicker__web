@@ -1,7 +1,7 @@
 import { FaBolt, FaBrain, FaCogs, FaGamepad } from "react-icons/fa";
 import "./HomePage.scss";
-import Subscription from "../components/Subscription/Subscriptions";
-import homeAnimation from "../assets/HomeAnimattion.json";
+import Subscription from "../../components/Subscription/Subscriptions";
+import homeAnimation from "../../assets/HomeAnimattion.json";
 import Lottie from "lottie-react";
 import { Button } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
@@ -42,7 +42,7 @@ export default function HomePage() {
           oszczędzisz bardzo dużo czasu, który możesz przeznaczyć na SIEBIE !!!
         </p>
 
-        <Button
+        {/* <Button
           color="info"
           variant="contained"
           style={{ marginTop: "20px" }}
@@ -55,7 +55,7 @@ export default function HomePage() {
           }}
         >
           Zainstaluj już teraz
-        </Button>
+        </Button> */}
       </section>
       {/* Features Section */}
       <section className="features--section">

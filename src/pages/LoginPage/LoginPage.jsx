@@ -4,10 +4,10 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import "./LoginPage.scss";
-import { auth } from "../firebaseConfig";
+import { auth } from "../../firebaseConfig";
 import { useNavigate } from "react-router";
 import { useContext } from "react";
-import { AuthContext } from "../context/auth-context";
+import { AuthContext } from "../../context/auth-context";
 
 const LoginPage = () => {
   const navigate = useNavigate();

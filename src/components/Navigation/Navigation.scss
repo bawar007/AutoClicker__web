@@ -1,45 +1,99 @@
+$mypadding: calc((100vw - 135px) / 2);
 nav {
-  display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
   padding: 5px 0;
+
   .myMenu {
-    top: 44px;
-  }
-  button {
-    &:hover {
-      cursor: pointer;
-    }
-  }
-  a,
-  .logout__btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 130px;
-    padding: 10px;
-    height: 100%;
-    text-decoration: none;
-    color: white;
-    transition: background-color 0.5s ease;
-    margin: 0 5px;
-    &.active {
-      background-color: rgba(255, 255, 255, 0.6);
-      color: black;
-    }
-    &:hover {
-      background-color: rgba(255, 255, 255, 0.4);
-      color: black;
+    top: 50px;
+    .link--wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 5px 0;
+
+      button {
+        &:hover {
+          cursor: pointer;
+        }
+      }
+      a,
+      .logout__btn {
+        display: flex;
+        align-items: center;
+
+        height: 100%;
+        text-decoration: none;
+        color: white;
+        transition: background-color 0.5s ease;
+        margin: 0 5px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 16px;
+        font-weight: bold;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+
+        &.active {
+          background-color: rgba(255, 255, 255, 0.6);
+          color: black;
+        }
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.4);
+          color: black;
+        }
+      }
     }
   }
 }
 
 @media (max-width: 1024px) {
   nav {
+    display: flex;
+
+    .link--wrapper {
+      position: relative;
+      width: 100vw !important;
+
+      &::before {
+        content: "";
+        background-color: rgba(128, 128, 128, 0.5);
+        position: absolute;
+        width: 100vw !important;
+        height: 2px;
+        bottom: 0;
+      }
+      a,
+      .logout__btn {
+        justify-content: space-between !important;
+        width: 150px !important;
+        padding: 5px !important;
+        svg {
+          margin-right: 10px;
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 1024px) {
+  nav {
     display: block;
     .toggleMenu:is:checked ~ & {
       display: flex;
+    }
+    .link--wrapper {
+      min-width: 130px;
+      border-left: 2px solid gray;
+      a,
+      .logout__btn {
+        justify-content: center;
+        width: 100%;
+        padding: 5px;
+        svg {
+          margin-right: 5px;
+        }
+      }
     }
   }
 }

@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
-import { deleteToken } from "../utils/http";
-import { AuthContext } from "../context/auth-context";
+import { deleteToken } from "../../utils/http";
+import { AuthContext } from "../../context/auth-context";
 import { useNavigate } from "react-router";
 import { OrbitProgress } from "react-loading-indicators";
 
@@ -13,10 +13,10 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Button } from "@mui/material";
 
 import "./AdminPage.scss";
-import UserDashboard from "./UserDashboard/UserDashboard";
+import UserDashboard from "../UserDashboard/UserDashboard";
 import { EventAvailable, Token } from "@mui/icons-material";
-import Subscription from "../components/Subscription/Subscriptions";
-import AddToken from "../components/AddToken";
+import Subscription from "../../components/Subscription/Subscriptions";
+import AddToken from "../../components/AddToken";
 
 const premiumTypes = {
   BUSSINESS_GOLD: "BUSSINESS GOLD",

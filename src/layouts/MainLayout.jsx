@@ -10,6 +10,8 @@ const MainLayout = ({ setAlertMessage }) => {
       </main>
       <footer>
         <NavLink to="/regulamin">Regulamin</NavLink>
+        <NavLink to="/contact">Kontakt</NavLink>
+        <NavLink to="/faq">FAQ</NavLink>
         <NavLink to="/policy">Polityka Prywatności</NavLink>
       </footer>
     </>

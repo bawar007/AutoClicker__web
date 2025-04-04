@@ -5,15 +5,10 @@ import Navigation from "../Navigation/Navigation";
 
 const Header = ({ setAlertMessage }) => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [bgColor, setBgColor] = useState(false);
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 0);
-      if (window.scrollY > 0) {
-        setBgColor("oklch(0.21 0.034 264.665)");
-      } else {
-        setBgColor(false);
-      }
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -25,15 +20,15 @@ const Header = ({ setAlertMessage }) => {
     >
       <div
         style={{
-          backgroundColor: "white",
-          borderRadius: "50%",
-          height: "49px",
-          marginTop: "0.5px",
+          padding: "5px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
-        <img src="./ACLogo.png" alt="logo" width={49} />
+        <img src="./icons/ACLogoNoText.png" alt="logo" width={40} />
       </div>
-      <Navigation setAlertMessage={setAlertMessage} bgColor={bgColor} />
+      <Navigation setAlertMessage={setAlertMessage} />
     </header>
   );
 };

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { AuthContext } from "./auth-context";
 import { getUserTokens, saveUser } from "../utils/http";
 import { getUserInfo } from "../utils/subscriptionHTTP";
+import { auth } from "../firebaseConfig";
 
 const AuthContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
@@ -11,6 +12,9 @@ const AuthContextProvider = ({ children }) => {
     const response = await saveUser(user);
     if (response) {
       setCurrentUser(user);
+      return true;
+    } else {
+      return false;
     }
   };
 
@@ -27,7 +31,15 @@ const AuthContextProvider = ({ children }) => {
   }, [currentUser]);
 
   const logOut = () => {
-    setCurrentUser(false);
+    auth
+      .signOut()
+      .then(() => {
+        setCurrentUser(false);
+        setCurrentUserInfo(false);
+      })
+      .catch((error) => {
+        console.error("Error signing out: ", error);
+      });
   };
 
   const value = {

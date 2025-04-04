@@ -4,6 +4,7 @@ const PolitykaPrywatnosci = () => {
   return (
     <div className="regulamin--wrapper">
       <h2>Polityka Prywatności AutoClicker</h2>
+
       <h3>§1 Postanowienia ogólne</h3>
       <ol>
         <li>
@@ -50,6 +51,14 @@ const PolitykaPrywatnosci = () => {
             <li>Weryfikacji licencji i dostępu do wersji premium.</li>
             <li>Obsługi płatności i subskrypcji.</li>
           </ul>
+        </li>
+        <li>
+          <span>
+            AutoClicker łączy się z bezpiecznym serwerem API w celu sprawdzenia
+            statusu subskrypcji i autoryzacji przeglądarki. Komunikacja z
+            backendem odbywa się wyłącznie w celu pobrania danych, a nie
+            wykonywania jakiegokolwiek zdalnego kodu.
+          </span>
         </li>
       </ol>
 
@@ -105,7 +114,27 @@ const PolitykaPrywatnosci = () => {
         </li>
       </ol>
 
-      <h3>§7 Zmiany polityki prywatności</h3>
+      <h3>§7 Zgodność z wymaganiami Google</h3>
+      <ol>
+        <li>
+          <span>
+            Rozszerzenie AutoClicker nie wykonuje żadnego zdalnego kodu
+            JavaScript pobranego z internetu. Wszystkie funkcje są realizowane
+            wyłącznie z wykorzystaniem lokalnych skryptów zawartych w pakiecie
+            rozszerzenia.
+          </span>
+        </li>
+        <li>
+          <span>
+            Komunikacja z zewnętrznymi usługami (takimi jak API backendu)
+            ogranicza się do pobierania danych niezbędnych do funkcjonowania
+            aplikacji (np. status subskrypcji) i nie zawiera żadnych poleceń do
+            wykonania.
+          </span>
+        </li>
+      </ol>
+
+      <h3>§8 Zmiany polityki prywatności</h3>
       <ol>
         <li>
           <span>

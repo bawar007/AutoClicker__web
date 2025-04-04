@@ -84,4 +84,16 @@ footer {
       }
     }
   }
+
+  @media (max-width: 1024px) {
+    .subs--hub {
+      flex-direction: column;
+      align-items: center;
+      width: 100% !important;
+      div {
+        width: 90% !important;
+        margin-bottom: 20px;
+      }
+    }
+  }
 }
