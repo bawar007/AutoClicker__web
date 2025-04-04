@@ -13,6 +13,7 @@ import HomePage from "./pages/HomePage";
 import SuccessPage from "./pages/SuccessPage";
 import Regulamin from "./pages/Regulamin";
 import PolitykaPrywatnosci from "./pages/PolitykaPrywatnosci/PolitykaPrywatnosci";
+import DashboardRedirect from "./pages/DashboardRedirect/DashboardRedirect";
 
 function App() {
   const [alertMessage, setAlertMessage] = useState({
@@ -145,6 +146,7 @@ function App() {
           <Route path="/regulamin" element={<Regulamin />} />
           <Route path="/policy" element={<PolitykaPrywatnosci />} />
         </Route>
+        <Route path="/dashboard" element={<DashboardRedirect />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/success" element={<SuccessPage />} />
 
