@@ -77,7 +77,7 @@ const SubscriptionItem = ({ subscription, setDialog }) => {
         padding: "10px",
         alignItems: "center",
         paddingBottom: "20px",
-        width: "40%",
+        width: "30%",
         boxShadow: "0px 0px 10px black",
       }}
     >
@@ -99,6 +99,12 @@ const SubscriptionItem = ({ subscription, setDialog }) => {
           <span style={{ color: "gray", fontSize: "12px" }}>
             To {parseInt(subscription.price / 12)}zł/msc oszczędzasz{" "}
             {parseInt(9.99 * 12 - subscription.price)}zł rocznie
+          </span>
+        )}
+        {subscription.price === 2699 && (
+          <span style={{ color: "gray", fontSize: "12px" }}>
+            To {parseInt(subscription.price / 12)}zł/msc oszczędzasz{" "}
+            {parseInt(249.99 * 12 - subscription.price)}zł rocznie
           </span>
         )}
       </div>

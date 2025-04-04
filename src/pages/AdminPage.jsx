@@ -1,30 +1,36 @@
 import { useContext, useEffect, useState } from "react";
-import { deleteToken, saveToken } from "../utils/http";
+import { deleteToken } from "../utils/http";
 import { AuthContext } from "../context/auth-context";
 import { useNavigate } from "react-router";
 import { OrbitProgress } from "react-loading-indicators";
-import SaveIcon from "@mui/icons-material/Save";
+
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Button, Collapse, Snackbar, Alert, AlertTitle } from "@mui/material";
+import { Button } from "@mui/material";
 
 import "./AdminPage.scss";
 import UserDashboard from "./UserDashboard/UserDashboard";
 import { EventAvailable, Token } from "@mui/icons-material";
+import Subscription from "../components/Subscription/Subscriptions";
+import AddToken from "../components/AddToken";
+
+const premiumTypes = {
+  BUSSINESS_GOLD: "BUSSINESS GOLD",
+  GOLD: "GOLD",
+  BASIC: "BASIC",
+};
 
 const AdminPage = ({ setSnackMessage }) => {
   const authCtx = useContext(AuthContext);
-  const [token, setToken] = useState("");
-  const [tokenLoading, setTokenLoading] = useState(false);
-  const [token2Loading, setToken2Loading] = useState(false);
-  const [token2, setToken2] = useState("");
+
   const [userTokens, setUserTokens] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [isSub, setIsSub] = useState(false);
+  const [tokensTableMap, setTokensTableMap] = useState(["", ""]);
   const [dialog, setDialog] = useState({
     open: false,
     title: "",
@@ -45,50 +51,6 @@ const AdminPage = ({ setSnackMessage }) => {
         handleClose();
       },
     }));
-  };
-
-  const handleAddToken = async (index) => {
-    const tokenM = index === 0 ? token : token2;
-    const type = authCtx.currentUserInfo.userInfo;
-    if (index === 0) setTokenLoading(true);
-    if (index === 1) setToken2Loading(true);
-    if (tokenM) {
-      const t = await saveToken(
-        tokenM,
-        authCtx.currentUser.uid,
-        type.subscription.type
-      );
-      if (t === true) {
-        setSnackMessage({
-          isVisible: true,
-          title: "TOKEN",
-          type: "success",
-          message: "Token zapisany prawidłowo",
-        });
-        setUserTokens((prev) => [
-          ...prev,
-          { token: tokenM, dateCreate: new Date().toISOString() },
-        ]);
-        setToken("");
-        setToken2("");
-      } else {
-        setSnackMessage({
-          isVisible: true,
-          title: "TOKEN",
-          type: "error",
-          message: t.error,
-        });
-      }
-    } else {
-      setSnackMessage({
-        isVisible: true,
-        title: "TOKEN",
-        type: "error",
-        message: "Musisz podać token",
-      });
-    }
-    setToken2Loading(false);
-    setTokenLoading(false);
   };
 
   const handleDeleteToken = async (token) => {
@@ -139,6 +101,9 @@ const AdminPage = ({ setSnackMessage }) => {
       const t = authCtx.currentUserInfo.userInfo;
       if (t.subscription && t.subscription.status === "active") {
         setIsSub(true);
+        if (t.subscription.type === premiumTypes.BUSSINESS_GOLD) {
+          setTokensTableMap(["", "", "", "", ""]);
+        }
       } else setIsSub(false);
 
       setIsLoading(false);
@@ -159,12 +124,15 @@ const AdminPage = ({ setSnackMessage }) => {
         setUserTokens={setUserTokens}
         setSnackMessage={setSnackMessage}
       />
+
       {isSub ? (
         <div className="admin--panel">
           <div className="tokens--wrapper">
-            <p>tokeny {userTokens.length}/2</p>
+            <p>
+              tokeny {userTokens.length}/{tokensTableMap.length}
+            </p>
 
-            {["", ""].map((item, index) => (
+            {tokensTableMap.map((item, index) => (
               <div className="tokens--wrapper__item" key={`item-${index}`}>
                 {userTokens[index] ? (
                   <div className="tokens--wrapper__item__cos">
@@ -199,44 +167,18 @@ const AdminPage = ({ setSnackMessage }) => {
                     </div>
                   </div>
                 ) : (
-                  <div
-                    key={`item-${index}`}
-                    className="tokens--wrapper__item__cos"
-                  >
-                    <div className="center">
-                      <Token />
-                      <input
-                        type="text"
-                        onChange={(v) => {
-                          if (index === 0) setToken(v.target.value);
-                          else setToken2(v.target.value);
-                        }}
-                        value={index === 0 ? token : token2}
-                      />
-                    </div>
-
-                    <div className="btn__wrapper ">
-                      <Button
-                        size="medium"
-                        color="success"
-                        onClick={() => {
-                          handleAddToken(index);
-                        }}
-                        loadingPosition="start"
-                        startIcon={<SaveIcon />}
-                        variant="contained"
-                        loading={index === 0 ? tokenLoading : token2Loading}
-                      >
-                        Save
-                      </Button>
-                    </div>
-                  </div>
+                  <AddToken
+                    setSnackMessage={setSnackMessage}
+                    setUserTokens={setUserTokens}
+                  />
                 )}
               </div>
             ))}
           </div>
         </div>
-      ) : null}
+      ) : (
+        <Subscription />
+      )}
 
       <Dialog
         open={dialog.open}

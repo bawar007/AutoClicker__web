@@ -120,14 +120,6 @@ const UserDashboard = ({ setSnackMessage }) => {
     h();
   }, [authCtx.currentUserInfo, authCtx.currentUser]);
 
-  useEffect(() => {
-    if (window.myAutoClickerPlugin) {
-      console.log("Plugin jest zainstalowany!");
-    } else {
-      console.log("Plugin NIE jest zainstalowany.");
-    }
-  }, []);
-
   if (!userData.load) {
     return <OrbitProgress />;
   }
@@ -139,7 +131,7 @@ const UserDashboard = ({ setSnackMessage }) => {
         !subscription
           ? {
               flexDirection: "column",
-              width: "100%",
+              width: "60%",
               backgroundColor: "#006494",
             }
           : {}
@@ -284,9 +276,6 @@ const UserDashboard = ({ setSnackMessage }) => {
           </div>
         </div>
       ) : null}
-      {subscription && subscription.status === "active" ? null : (
-        <Subscription />
-      )}
 
       <Dialog
         open={dialog.open}

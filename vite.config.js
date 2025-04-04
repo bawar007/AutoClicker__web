@@ -5,7 +5,7 @@ import tailwindcss from "@tailwindcss/vite";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  base: "/AutoClicker__web/",
+  base: "/",
   build: {
     outDir: "build", // Zmień folder wyjściowy na 'build'
   },

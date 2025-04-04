@@ -92,8 +92,6 @@ function FeatureCard({ icon, title, description, extraText }) {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        console.log(entry);
-
         if (entry.isIntersecting) {
           setHasAnimated(true); // Ustawiamy na true tylko raz
           observer.disconnect(); // Przestajemy obserwować

@@ -14,6 +14,7 @@ import SuccessPage from "./pages/SuccessPage";
 import Regulamin from "./pages/Regulamin";
 import PolitykaPrywatnosci from "./pages/PolitykaPrywatnosci/PolitykaPrywatnosci";
 import DashboardRedirect from "./pages/DashboardRedirect/DashboardRedirect";
+import CancelPage from "./pages/CancelPage";
 
 function App() {
   const [alertMessage, setAlertMessage] = useState({
@@ -149,8 +150,7 @@ function App() {
         <Route path="/dashboard" element={<DashboardRedirect />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/success" element={<SuccessPage />} />
-
-        {/* <Route path="/cancel" element={<CancelPage />} /> */}
+        <Route path="/cancel" element={<CancelPage />} />
       </Routes>
     </div>
   );

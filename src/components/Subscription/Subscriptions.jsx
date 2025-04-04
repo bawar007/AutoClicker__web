@@ -42,6 +42,21 @@ const subsVersions = [
     showMode: "month",
   },
   {
+    duration: "1 Miesiąc",
+    type: "Premium Bussiness",
+    price: 249.99,
+    description: [
+      "11msc + 1 msc GRATIS !!!",
+      "Wszystkie funkcje premium przez cały rok",
+      "Najlepsza oszczędność",
+      "Ekskluzywne aktualizacje i bonusy",
+    ],
+    priceId: "price_1RA5lEIbb7FrsP92FrmTHLty",
+    bestValue: false,
+    isActualSub: null,
+    showMode: "month",
+  },
+  {
     duration: "1 Rok",
     type: "Basic",
     price: 109.99,
@@ -68,6 +83,21 @@ const subsVersions = [
     ],
     priceId: "price_1R8gZEIbb7FrsP92TxwOZ4rV",
     bestValue: true,
+    isActualSub: null,
+    showMode: "year",
+  },
+  {
+    duration: "1 Rok",
+    type: "Premium Bussiness",
+    price: 2699,
+    description: [
+      "11msc + 1 msc GRATIS !!!",
+      "Wszystkie funkcje premium przez cały rok",
+      "Najlepsza oszczędność",
+      "Ekskluzywne aktualizacje i bonusy",
+    ],
+    priceId: "price_1RA5m4Ibb7FrsP92N1TwhNf3",
+    bestValue: false,
     isActualSub: null,
     showMode: "year",
   },
@@ -109,6 +139,7 @@ const Subscription = ({ fromHome }) => {
       className="flex flex-col lg:flex-row gap-8  items-center sub--section"
       style={{
         width: fromHome ? "100%" : "90%",
+        marginTop: fromHome ? "0px" : "50px",
       }}
     >
       <Dialog open={dialog.open}>
@@ -157,7 +188,7 @@ const Subscription = ({ fromHome }) => {
           </div>
         </div>
       </div>
-      <div className="subs--hub" style={fromHome ? { width: "60%" } : {}}>
+      <div className="subs--hub" style={fromHome ? { width: "90%" } : {}}>
         {itemsToShow.map((subscription, index) => (
           <SubscriptionItem
             subscription={subscription}

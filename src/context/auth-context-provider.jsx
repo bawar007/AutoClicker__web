@@ -16,6 +16,7 @@ const AuthContextProvider = ({ children }) => {
 
   const setUserInfo = async (user) => {
     const userInfo = await getUserInfo(user.uid);
+
     const userTokens = await getUserTokens(user.uid);
     const buildUser = { ...user, userInfo, userTokens };
     setCurrentUserInfo(buildUser);

@@ -56,6 +56,7 @@ export const saveUser = async (user) => {
 export const getUserTokens = async (uid) => {
   try {
     const response = await axios.get(`${URL}/gettokens/${uid}`);
+    console.log(response.data);
 
     if (response.data.success) return response.data.tokens;
     else return false;

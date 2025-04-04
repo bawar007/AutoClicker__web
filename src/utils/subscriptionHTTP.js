@@ -1,6 +1,12 @@
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 
+const premiumTypes = {
+  BUSSINESS_GOLD: "BUSSINESS GOLD",
+  GOLD: "GOLD",
+  BASIC: "BASIC",
+};
+
 // const stripePromise = loadStripe(
 //   "pk_live_51R6F1BIbcuVy4eFvReGUnFek7mrUSQVdB36HVakroHUVXXvlo37ipn4t6jZLcMoixYrnJlysFZOPocevrA0mOoBd0002tTd4fs"
 // );
@@ -53,7 +59,21 @@ export const getUserInfo = async (uid) => {
             subscription: {
               ...response.data.user.subscription,
               dateEnd: new Date(response.data.user.subscription.expiresAt),
-              type: "GOLD",
+              type: premiumTypes.GOLD,
+            },
+          };
+        } else if (
+          response.data.user.subscription.priceId ===
+            "price_1RA5lEIbb7FrsP92FrmTHLty" ||
+          response.data.user.subscription.priceId ===
+            "price_1RA5m4Ibb7FrsP92N1TwhNf3"
+        ) {
+          return {
+            ...response.data.user,
+            subscription: {
+              ...response.data.user.subscription,
+              dateEnd: new Date(response.data.user.subscription.expiresAt),
+              type: premiumTypes.BUSSINESS_GOLD,
             },
           };
         } else {
@@ -62,7 +82,7 @@ export const getUserInfo = async (uid) => {
             subscription: {
               ...response.data.user.subscription,
               dateEnd: new Date(response.data.user.subscription.expiresAt),
-              type: "BASIC",
+              type: premiumTypes.BASIC,
             },
           };
         }
