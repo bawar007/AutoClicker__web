@@ -1,15 +1,20 @@
 import {
-  FacebookAuthProvider,
   GoogleAuthProvider,
   signInWithPopup,
+  signInWithEmailAndPassword,
 } from "firebase/auth";
 import "./LoginPage.scss";
 import { auth } from "../../firebaseConfig";
-import { useNavigate } from "react-router";
-import { useContext } from "react";
+import { NavLink, useNavigate } from "react-router";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/auth-context";
+import { Box, Button, TextField, Typography } from "@mui/material";
 
 const LoginPage = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const authCtx = useContext(AuthContext);
@@ -27,21 +32,66 @@ const LoginPage = () => {
     }
   };
 
-  const handleFacebookLogin = async () => {
-    const provider = new FacebookAuthProvider();
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
 
     try {
-      await signInWithPopup(auth, provider);
-    } catch (error) {
-      console.error("Błąd podczas logowania:", error);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      const user = userCredential.user;
+
+      if (!user.emailVerified) {
+        setError("Musisz potwierdzić swój adres e-mail, zanim się zalogujesz.");
+        authCtx.logout(); // wyloguj użytkownika
+        return;
+      }
+
+      // Sukces! Przekieruj do dashboardu lub strony głównej
+      await authCtx.authenticate(user);
+      navigate("/panel", { replace: true });
+    } catch (err) {
+      console.error(err);
+      switch (err.code) {
+        case "auth/user-not-found":
+        case "auth/wrong-password":
+          setError("Nieprawidłowy email lub hasło.");
+          break;
+        case "auth/invalid-email":
+          setError("Nieprawidłowy adres e-mail.");
+          break;
+        case "auth/too-many-requests":
+          setError("Zbyt wiele prób logowania. Spróbuj później.");
+          break;
+        case "auth/network-request-failed":
+          setError("Błąd sieci. Sprawdź połączenie internetowe.");
+          break;
+        default:
+          setError("Wystąpił nieoczekiwany błąd. Spróbuj ponownie.");
+      }
+    } finally {
+      setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (authCtx.currentUser) {
+      if (authCtx.currentUser) {
+        navigate("/panel", { replace: true });
+      }
+    }
+  }, [authCtx, navigate]);
 
   return (
     <div className="background">
       <div className="login-container">
         <div className="login-card">
-          <h2 className="login-title">Log in with</h2>
+          <h2 className="login-title">Zaloguj sie z</h2>
 
           <div className="social-buttons">
             <button className="social-btn google" onClick={handleGoogleLogin}>
@@ -72,42 +122,66 @@ const LoginPage = () => {
               </svg>
               Google
             </button>
-            <button
-              className="social-btn facebook"
-              onClick={handleFacebookLogin}
-            >
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/6/6c/Facebook_Logo_2023.png"
-                alt="Facebook"
-              />
-              Facebook
-            </button>
           </div>
 
-          <p className="separator">or</p>
+          <p className="separator">lub</p>
+          <Box
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            gap={2}
+          >
+            <form onSubmit={handleLogin} style={{ width: "100%" }}>
+              <TextField
+                label="Email"
+                type="email"
+                fullWidth
+                margin="normal"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                InputProps={{ style: { color: "white" } }}
+                InputLabelProps={{ style: { color: "#1976d2" } }}
+              />
+              <TextField
+                label="Hasło"
+                type="password"
+                fullWidth
+                margin="normal"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                InputProps={{ style: { color: "white" } }}
+                InputLabelProps={{ style: { color: "#1976d2" } }}
+              />
+              {error && (
+                <Typography color="error" variant="body2" mt={1}>
+                  {error}
+                </Typography>
+              )}
 
-          <form className="form">
-            <label>Email</label>
-            <input
-              type="email"
-              placeholder="Enter email address"
-              className="input-field"
-            />
-
-            <label>Password</label>
-            <input
-              type="password"
-              placeholder="Enter your password"
-              className="input-field"
-            />
-
-            <button type="submit" className="login-btn">
-              Log In
-            </button>
-          </form>
-
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                sx={{ mt: 2 }}
+                disabled={loading}
+              >
+                {loading ? "Logowanie..." : "Zaloguj się"}
+              </Button>
+            </form>
+          </Box>
           <p className="signup-text">
-            Dont have an account? <a href="#">Sign up</a>
+            Nie posiadasz konta?{" "}
+            <NavLink to="/register">Zarejestruj się</NavLink>
+          </p>
+          <p
+            className="signup-text"
+            style={{ fontSize: "0.8rem", marginTop: "5px" }}
+          >
+            Nie pamiętasz hasła?{" "}
+            <NavLink to="/resetpassword">Zmień hasło</NavLink>
           </p>
         </div>
       </div>

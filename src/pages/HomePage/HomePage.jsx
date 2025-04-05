@@ -37,8 +37,8 @@ export default function HomePage() {
           ?
         </p>
         <p className="mt-4 text-lg text-gray-300 max-w-4xl">
-          O to on AutoClicker to narzędzie, które pozwala Ci zoptymalizować
-          swoją prace, klikając za Ciebie w odpowiednich momentach. Dzięki niemu
+          O to on AutoClicker narzędzie, które pozwala Ci zoptymalizować swoją
+          prace, klikając za Ciebie w odpowiednich momentach. Dzięki niemu
           oszczędzisz bardzo dużo czasu, który możesz przeznaczyć na SIEBIE !!!
         </p>
 
@@ -63,7 +63,7 @@ export default function HomePage() {
           icon={<FaBolt size={50} />}
           title="Automatyczne Klikanie"
           description="Oszczędzaj czas, pozwól AutoClickerowi klikać za Ciebie!"
-          extraText="✔ Dzięki tej funkcji możesz cieszyć się automatycznym klikaniem w kluczowych momentach, co daje Ci więcej czasu na skupienie się na innych aspektach swojej pracy oraz bezpiecznijszą pracę."
+          extraText="✔ Dzięki tej funkcji możesz cieszyć się automatycznym klikaniem w kluczowych momentach, co daje Ci więcej czasu na skupienie się na innych aspektach swojej pracy oraz bezpieczniejszą pracę."
         />
         <FeatureCard
           icon={<FaCogs size={50} />}

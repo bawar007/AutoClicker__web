@@ -17,6 +17,8 @@ import DashboardRedirect from "./pages/DashboardRedirect/DashboardRedirect";
 import CancelPage from "./pages/CancelPage/CancelPage";
 import ContactPage from "./pages/ContactPage/ContactPage";
 import FaqPage from "./pages/FaqPage/FaqPage";
+import RegisterForm from "./pages/RegisterPage/RegisterPage";
+import ResetPasswordForm from "./pages/ResetPasswordPage/ResetPasswordForm";
 
 function App() {
   const [alertMessage, setAlertMessage] = useState({
@@ -36,17 +38,25 @@ function App() {
   const authCtx = useContext(AuthContext);
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      if (currentUser !== null || authCtx.currentUser) {
-        const t = await authCtx.authenticate(currentUser);
-        console.log("User");
-
-        if (t) {
+      if (currentUser !== null) {
+        if (currentUser.emailVerified) {
+          const t = await authCtx.authenticate(currentUser);
+          if (t) {
+            setAlertMessage({
+              isVisible: true,
+              title: "",
+              type: "success",
+              message: "Zalogowano !!",
+            });
+          }
+        } else {
           setAlertMessage({
             isVisible: true,
             title: "",
-            type: "success",
-            message: "Zalogowano !!",
+            type: "warning",
+            message: "Zweryfikuj swój email !!",
           });
+          authCtx.logout();
         }
       } else {
         authCtx.logout();
@@ -159,7 +169,12 @@ function App() {
           <Route path="/faq" element={<FaqPage />} />
         </Route>
 
-        <Route path="/login" element={<LoginPage />} />
+        <Route
+          path="/login"
+          element={<LoginPage setMessage={setAlertMessage} />}
+        />
+        <Route path="/register" element={<RegisterForm />} />
+        <Route path="/resetpassword" element={<ResetPasswordForm />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </div>

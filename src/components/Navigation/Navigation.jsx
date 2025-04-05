@@ -22,7 +22,7 @@ const Navigation = ({ setAlertMessage }) => {
         type: "success",
         message: "Wylogowano !!",
       });
-      navigate("/login", { replace: true });
+      navigate("/", { replace: true });
     } catch (error) {
       console.error("Błąd podczas wylogowywania:", error);
     }

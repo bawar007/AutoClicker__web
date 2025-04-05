@@ -20,6 +20,35 @@ export default function FaqPage() {
           expandIcon={<ExpandMoreIcon />}
           style={{ backgroundColor: "#1976d2", color: "white" }}
         >
+          Nie widzę pluginu, co zrobić?
+        </AccordionSummary>
+        <AccordionDetails>
+          <Circle fontSize="inherit" />
+          Upewnij się że masz zainstalowaną wtyczkę
+        </AccordionDetails>
+        <AccordionDetails>
+          <Circle fontSize="inherit" />
+          Jeśli wtyczka jest zainstalowana sprawdz czy jest przypięta do paska
+          narzędzi przeglądarki. Tak jak na obrazku.
+          <img
+            src="/icons/addPluginToCard.bmp"
+            alt="id pluginu"
+            width="300px"
+            style={{
+              marginTop: "20px",
+              marginBottom: "10px",
+              marginLeft: "calc(50% - 150px)",
+              border: "2px solid black",
+            }}
+          />
+        </AccordionDetails>
+      </Accordion>
+
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          style={{ backgroundColor: "#1976d2", color: "white" }}
+        >
           Jak użwać Auto-Clickera?
         </AccordionSummary>
         <AccordionDetails>
@@ -34,12 +63,32 @@ export default function FaqPage() {
           {`"Pamiętać trzeba, że sloty muszą być z tego
           samego dnia"`}
           .
-          <img src="/icons/addSlot.png" alt="id pluginu" width="300px" />
+          <img
+            src="/icons/addSlot.png"
+            alt="id pluginu"
+            width="300px"
+            style={{
+              marginTop: "20px",
+              marginBottom: "10px",
+              marginLeft: "calc(50% - 150px)",
+              border: "2px solid black",
+            }}
+          />
         </AccordionDetails>
         <AccordionDetails>
           <Circle fontSize="inherit" /> Później kliknij w przycisk start i ciesz
           się wolnym czasem {`;)`}
-          <img src="/icons/working.png" alt="id pluginu" width="200px" />
+          <img
+            src="/icons/working.png"
+            alt="id pluginu"
+            width="200px"
+            style={{
+              marginTop: "20px",
+              marginBottom: "10px",
+              marginLeft: "calc(50% - 100px)",
+              border: "2px solid black",
+            }}
+          />
         </AccordionDetails>
       </Accordion>
 
@@ -114,7 +163,17 @@ export default function FaqPage() {
         </AccordionDetails>
         <AccordionDetails>
           <Circle fontSize="inherit" /> Id pluginu znajdziesz tutaj
-          <img src="/icons/idInfo.png" alt="id pluginu" width="300px" />
+          <img
+            src="/icons/idInfo.png"
+            alt="id pluginu"
+            width="300px"
+            style={{
+              marginTop: "20px",
+              marginBottom: "10px",
+              marginLeft: "calc(50% - 150px)",
+              border: "2px solid black",
+            }}
+          />
         </AccordionDetails>
       </Accordion>
       <Accordion>

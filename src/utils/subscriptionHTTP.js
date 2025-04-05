@@ -7,12 +7,17 @@ const premiumTypes = {
   BASIC: "BASIC",
 };
 
-// const stripePromise = loadStripe(
-//   "pk_live_51R6F1BIbcuVy4eFvReGUnFek7mrUSQVdB36HVakroHUVXXvlo37ipn4t6jZLcMoixYrnJlysFZOPocevrA0mOoBd0002tTd4fs"
-// );
+const pricesTypes = {
+  BUSSINESS_GOLD_MONTH: "price_1RAW3JIbcuVy4eFvie55hisK",
+  BUSSINESS_GOLD_YEAR: "price_1RAW3JIbcuVy4eFvRsN5Yvt0",
+  GOLD_MONTH: "price_1RAW3PIbcuVy4eFvUfuw3k1M",
+  GOLD_YEAR: "price_1RAW3PIbcuVy4eFvEuoXUGvr",
+  BASIC_MONTH: "price_1RAW3UIbcuVy4eFvi3TA1H2i",
+  BASIC_YEAR: "price_1RAW3UIbcuVy4eFvLUXaN5Tr",
+};
 
 const stripePromise = loadStripe(
-  "pk_test_51R6F1LIbb7FrsP92jdPrswDqHy7pBrwENP9kXnkD3NBsh04cyir7aOIW4HHGWiVGhMjerqP4IpQaRs3A0AoG1pDk00OSaNltrV"
+  "pk_live_51R6F1BIbcuVy4eFvReGUnFek7mrUSQVdB36HVakroHUVXXvlo37ipn4t6jZLcMoixYrnJlysFZOPocevrA0mOoBd0002tTd4fs"
 );
 
 const URL = "https://api.autoclicker.pl";
@@ -49,10 +54,8 @@ export const getUserInfo = async (uid) => {
         response.data.user.subscription.priceId
       ) {
         if (
-          response.data.user.subscription.priceId ===
-            "price_1R8gYqIbb7FrsP92WbLj8sf1" ||
-          response.data.user.subscription.priceId ===
-            "price_1R8gZEIbb7FrsP92TxwOZ4rV"
+          response.data.user.subscription.priceId === pricesTypes.GOLD_MONTH ||
+          response.data.user.subscription.priceId === pricesTypes.GOLD_YEAR
         ) {
           return {
             ...response.data.user,
@@ -64,9 +67,9 @@ export const getUserInfo = async (uid) => {
           };
         } else if (
           response.data.user.subscription.priceId ===
-            "price_1RA5lEIbb7FrsP92FrmTHLty" ||
+            pricesTypes.BUSSINESS_GOLD_MONTH ||
           response.data.user.subscription.priceId ===
-            "price_1RA5m4Ibb7FrsP92N1TwhNf3"
+            pricesTypes.BUSSINESS_GOLD_YEAR
         ) {
           return {
             ...response.data.user,

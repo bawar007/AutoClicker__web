@@ -5,7 +5,6 @@
   align-items: center;
   width: 100%;
   margin-bottom: 50px;
-
   border-radius: 20px;
   .admin--panel {
     display: flex;
@@ -14,7 +13,7 @@
     align-items: center;
     width: 60%;
     position: relative;
-    background-color: #006494;
+    background-color: #003554;
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
 
@@ -69,7 +68,7 @@
         min-height: 50px;
         margin-bottom: 20px;
         box-shadow: 0px 0px 5px black;
-
+        background-color: #006494;
         &__cos {
           display: flex;
           flex-direction: row;

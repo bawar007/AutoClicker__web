@@ -22,11 +22,15 @@ import {
   HowToReg,
   MilitaryTech,
   EditCalendar,
+  ChangeCircle,
 } from "@mui/icons-material";
+
+import { auth } from "../../firebaseConfig";
 
 import "./UserDashboard.scss";
 import Lottie from "lottie-react";
 import axios from "axios";
+import { sendPasswordResetEmail } from "firebase/auth";
 
 const UserDashboard = ({ setSnackMessage }) => {
   const [subscription, setSubscription] = useState(false);
@@ -43,6 +47,8 @@ const UserDashboard = ({ setSnackMessage }) => {
     description: "",
     callAccept: () => {},
   });
+
+  const [userHaveChangePass, setUserHaveChangePass] = useState(false);
 
   const authCtx = useContext(AuthContext);
 
@@ -98,10 +104,65 @@ const UserDashboard = ({ setSnackMessage }) => {
     }
   };
 
+  const handleChangePassword = async () => {
+    try {
+      await sendPasswordResetEmail(auth, userData.email);
+      setSnackMessage({
+        isVisible: true,
+        title: "User",
+        type: "success",
+        message: "Wysłano wiadomość z linkiem do zresetowania hasła.",
+      });
+    } catch (err) {
+      console.error(err);
+      switch (err.code) {
+        case "auth/user-not-found":
+          setSnackMessage({
+            isVisible: true,
+            title: "User",
+            type: "error",
+            message: "Nie znaleziono użytkownika z tym adresem e-mail.",
+          });
+          break;
+        case "auth/invalid-email":
+          setSnackMessage({
+            isVisible: true,
+            title: "User",
+            type: "error",
+            message: "Nieprawidłowy adres e-mail.",
+          });
+          break;
+        case "auth/network-request-failed":
+          setSnackMessage({
+            isVisible: true,
+            title: "User",
+            type: "error",
+            message: "Błąd sieci. Sprawdź połączenie internetowe.",
+          });
+          break;
+        default:
+          setSnackMessage({
+            isVisible: true,
+            title: "User",
+            type: "error",
+            message: "Wystąpił nieoczekiwany błąd. Spróbuj ponownie.",
+          });
+      }
+    }
+  };
+
   useEffect(() => {
     const h = async () => {
       if (authCtx.currentUser) {
         const user = authCtx.currentUser;
+        const changeHave = user.providerData.filter(
+          (item) => item.providerId === "password"
+        );
+        if (changeHave.length) {
+          setUserHaveChangePass(true);
+        } else {
+          setUserHaveChangePass(false);
+        }
         setUserData({
           email: user.email || "",
           name: user.displayName || "",
@@ -151,7 +212,17 @@ const UserDashboard = ({ setSnackMessage }) => {
                 : {}
             }
           >
-            <div className="left__info">
+            <div
+              className="left__info"
+              style={
+                !subscription
+                  ? {
+                      width: "40%",
+                      minWidth: "40%",
+                    }
+                  : {}
+              }
+            >
               <h3>TWOJE DANE</h3>
               {userData.photo ? (
                 <img
@@ -183,6 +254,17 @@ const UserDashboard = ({ setSnackMessage }) => {
                   </span>
                 </span>
               </div>
+              {userHaveChangePass && (
+                <Button
+                  size="medium"
+                  onClick={handleChangePassword}
+                  startIcon={<ChangeCircle />}
+                  variant="contained"
+                  color="secondary"
+                >
+                  Zmień hasło
+                </Button>
+              )}
               <Button
                 size="medium"
                 onClick={handleClickOpenDeleteAccound}
@@ -258,7 +340,7 @@ const UserDashboard = ({ setSnackMessage }) => {
                         size="large"
                         onClick={() => {
                           window.open(
-                            "https://billing.stripe.com/p/login/test_8wM5mV5ka2bAdm8000?prefilled_email=" +
+                            "https://billing.stripe.com/p/login/28o29U3PI7TdeU8fYY?prefilled_email=" +
                               authCtx.currentUser.email,
                             "_blank"
                           );

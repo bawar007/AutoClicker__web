@@ -26,7 +26,7 @@ const SubscriptionItem = ({ subscription, setDialog }) => {
         description: "Już posiadasz subskrypcje. Czy chcesz ją zmienić ?",
         callAccept: () => {
           window.open(
-            "https://billing.stripe.com/p/login/test_8wM5mV5ka2bAdm8000?prefilled_email=" +
+            "https://billing.stripe.com/p/login/28o29U3PI7TdeU8fYY?prefilled_email=" +
               authCtx.currentUser.email,
             "_blank"
           );
@@ -89,7 +89,7 @@ const SubscriptionItem = ({ subscription, setDialog }) => {
         <p className="text-2xl font-semibold text-white mt-2">
           {subscription.price}zł
         </p>
-        {subscription.price === 549.99 && (
+        {subscription.price === 589.99 && (
           <span style={{ color: "gray", fontSize: "12px" }}>
             To {parseInt(subscription.price / 12)}zł/msc oszczędzasz{" "}
             {parseInt(49.99 * 12 - subscription.price)}zł rocznie
