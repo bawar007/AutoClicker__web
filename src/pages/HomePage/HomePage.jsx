@@ -79,9 +79,9 @@ export default function HomePage() {
         />
       </section>
       {/* Pricing Section */}
-      <div style={{ width: "100%" }}>
+      {/* <div style={{ width: "100%" }}>
         <Subscription fromHome={true} />
-      </div>
+      </div> */}
     </div>
   );
 }

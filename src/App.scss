@@ -25,6 +25,15 @@ footer {
   flex-wrap: wrap;
   justify-content: space-evenly;
   align-items: center;
+  a:hover {
+    color: gray;
+  }
+  @media (max-width: 1024px) {
+    a {
+      min-width: 30%;
+      text-align: center;
+    }
+  }
 }
 
 .sub--section {

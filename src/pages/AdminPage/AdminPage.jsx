@@ -125,7 +125,7 @@ const AdminPage = ({ setSnackMessage }) => {
         setSnackMessage={setSnackMessage}
       />
 
-      {isSub ? (
+      {/* {isSub ? (
         <div className="admin--panel">
           <div className="tokens--wrapper">
             <p>
@@ -178,7 +178,7 @@ const AdminPage = ({ setSnackMessage }) => {
         </div>
       ) : (
         <Subscription />
-      )}
+      )} */}
 
       <Dialog
         open={dialog.open}

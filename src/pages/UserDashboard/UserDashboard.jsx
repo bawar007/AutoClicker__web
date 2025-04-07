@@ -48,6 +48,14 @@ const UserDashboard = ({ setSnackMessage }) => {
     callAccept: () => {},
   });
 
+  const [width, setWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const [userHaveChangePass, setUserHaveChangePass] = useState(false);
 
   const authCtx = useContext(AuthContext);
@@ -189,7 +197,7 @@ const UserDashboard = ({ setSnackMessage }) => {
     <div
       className="user--dashboard"
       style={
-        !subscription
+        !subscription && width > 1024
           ? {
               flexDirection: "column",
               width: "60%",
@@ -203,7 +211,7 @@ const UserDashboard = ({ setSnackMessage }) => {
           <div
             className="left"
             style={
-              !subscription
+              !subscription && width > 1024
                 ? {
                     width: "100%",
                     marginBottom: "50px",
@@ -215,7 +223,7 @@ const UserDashboard = ({ setSnackMessage }) => {
             <div
               className="left__info"
               style={
-                !subscription
+                !subscription && width > 1024
                   ? {
                       width: "40%",
                       minWidth: "40%",
