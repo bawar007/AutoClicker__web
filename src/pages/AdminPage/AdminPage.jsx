@@ -19,7 +19,7 @@ import Subscription from "../../components/Subscription/Subscriptions";
 import AddToken from "../../components/AddToken";
 
 const premiumTypes = {
-  BUSSINESS_GOLD: "BUSSINESS GOLD",
+  BUSSINESS_GOLD: "BUSINESS GOLD",
   GOLD: "GOLD",
   BASIC: "BASIC",
 };
@@ -30,7 +30,7 @@ const AdminPage = ({ setSnackMessage }) => {
   const [userTokens, setUserTokens] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [isSub, setIsSub] = useState(false);
-  const [tokensTableMap, setTokensTableMap] = useState(["", ""]);
+  const [tokensTableMap, setTokensTableMap] = useState([""]);
   const [dialog, setDialog] = useState({
     open: false,
     title: "",
@@ -102,7 +102,9 @@ const AdminPage = ({ setSnackMessage }) => {
       if (t.subscription && t.subscription.status === "active") {
         setIsSub(true);
         if (t.subscription.type === premiumTypes.BUSSINESS_GOLD) {
-          setTokensTableMap(["", "", "", "", ""]);
+          setTokensTableMap(["", "", "", "", "", ""]);
+        } else {
+          setTokensTableMap([""]);
         }
       } else setIsSub(false);
 
@@ -125,7 +127,7 @@ const AdminPage = ({ setSnackMessage }) => {
         setSnackMessage={setSnackMessage}
       />
 
-      {/* {isSub ? (
+      {isSub ? (
         <div className="admin--panel">
           <div className="tokens--wrapper">
             <p>
@@ -178,7 +180,7 @@ const AdminPage = ({ setSnackMessage }) => {
         </div>
       ) : (
         <Subscription />
-      )} */}
+      )}
 
       <Dialog
         open={dialog.open}

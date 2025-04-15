@@ -2,7 +2,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 
 const premiumTypes = {
-  BUSSINESS_GOLD: "BUSSINESS GOLD",
+  BUSSINESS_GOLD: "BUSINESS GOLD",
   GOLD: "GOLD",
   BASIC: "BASIC",
 };
@@ -11,7 +11,7 @@ const pricesTypes = {
   BUSSINESS_GOLD_MONTH: "price_1RAW3JIbcuVy4eFvie55hisK",
   BUSSINESS_GOLD_YEAR: "price_1RAW3JIbcuVy4eFvRsN5Yvt0",
   GOLD_MONTH: "price_1RAW3PIbcuVy4eFvUfuw3k1M",
-  GOLD_YEAR: "price_1RAW3PIbcuVy4eFvEuoXUGvr",
+  GOLD_YEAR: "price_1REB1GIbcuVy4eFvXnUzyt3q",
   BASIC_MONTH: "price_1RAW3UIbcuVy4eFvi3TA1H2i",
   BASIC_YEAR: "price_1RAW3UIbcuVy4eFvLUXaN5Tr",
 };

@@ -5,6 +5,7 @@ import homeAnimation from "../../assets/HomeAnimattion.json";
 import Lottie from "lottie-react";
 import { Button } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
+import { InstallDesktop } from "@mui/icons-material";
 // import { useContext } from "react";
 // import { AuthContext } from "../context/auth-context";
 
@@ -42,46 +43,60 @@ export default function HomePage() {
           oszczędzisz bardzo dużo czasu, który możesz przeznaczyć na SIEBIE !!!
         </p>
 
-        {/* <Button
+        <Button
           color="info"
           variant="contained"
           style={{ marginTop: "20px" }}
           size="large"
           onClick={() => {
             window.open(
-              "https://chromewebstore.google.com/category/extensions?utm_source=ext_sidebar&hl=pl",
+              "https://chromewebstore.google.com/detail/auto-clicker-do-rezerwacj/gjnfcgdndmpmkgefcocaklliappbpklf",
               "_target"
             );
           }}
         >
+          <InstallDesktop style={{ marginRight: "10px" }} />
           Zainstaluj już teraz
-        </Button> */}
+        </Button>
       </section>
       {/* Features Section */}
       <section className="features--section">
         <FeatureCard
           icon={<FaBolt size={50} />}
           title="Automatyczne Klikanie"
-          description="Oszczędzaj czas, pozwól AutoClickerowi klikać za Ciebie!"
-          extraText="✔ Dzięki tej funkcji możesz cieszyć się automatycznym klikaniem w kluczowych momentach, co daje Ci więcej czasu na skupienie się na innych aspektach swojej pracy oraz bezpieczniejszą pracę."
+          description="Pozwól AutoClickerowi wykonać pracę za Ciebie"
+          extraText={[
+            "✔ Automatyczne klikanie w wybrane sloty",
+            "✔ Oszczędność czasu i energii",
+            "✔ Stabilność i bezpieczeństwo działania",
+          ]}
         />
         <FeatureCard
           icon={<FaCogs size={50} />}
-          title="Łatwa Konfiguracja"
-          description="Szybko dostosuj ustawienia do swoich potrzeb."
-          extraText="✔ Prosty interfejs użytkownika pozwala na łatwą konfigurację, dzięki czemu już po chwili możesz w pełni korzystać z AutoClickera bez zbędnych komplikacji."
+          title="Intuicyjna Konfiguracja"
+          description="Dostosuj wszystko do swoich potrzeb w kilka sekund"
+          extraText={[
+            "✔ Szybka konfiguracja bez technicznej wiedzy",
+            "✔ Prosty i przejrzysty interfejs",
+            "✔ Wszystko gotowe w mniej niż minutę",
+          ]}
         />
         <FeatureCard
           icon={<FaBrain size={50} />}
-          title="Szybsza i Efektywniejsza Praca"
-          description="Zyskaj przewagę nad innymi!"
-          extraText="✔ AutoClicker poprawia Twoją wydajność w pracy, zapewniając szybsze reakcje."
+          title="Większa Efektywność"
+          description="Zautomatyzuj powtarzalne zadania"
+          extraText={[
+            "✔ Eliminacja manualnych kliknięć",
+            "✔ Wydajność na wyższym poziomie",
+            "✔ Idealny dla pracy z ograniczonym czasem",
+          ]}
         />
       </section>
+
       {/* Pricing Section */}
-      {/* <div style={{ width: "100%" }}>
+      <div style={{ width: "100%" }}>
         <Subscription fromHome={true} />
-      </div> */}
+      </div>
     </div>
   );
 }
@@ -110,13 +125,34 @@ function FeatureCard({ icon, title, description, extraText }) {
       className={`flex flex-col items-center bg-gray-800 p-6 rounded-2xl shadow-lg text-center features--section__item ${
         hasAnimated && "animate-fade-right "
       }`}
-      style={{ boxShadow: "0px 0px 10px black" }}
+      style={{
+        boxShadow: "0px 0px 10px black",
+        paddingTop: "30px",
+        paddingBottom: "30px",
+      }}
       ref={ref}
     >
       <div className="text-green-400 mb-4">{icon}</div>
       <h3 className="text-2xl font-semibold">{title}</h3>
       <p className="text-gray-400 mt-2 text-lg">{description}</p>
-      <p className="text-gray-300 mt-2">{extraText}</p>
+      {Array.isArray(extraText) ? (
+        <ul
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            alignItems: "flex-start",
+          }}
+        >
+          {extraText.map((text, index) => (
+            <li key={index} className="text-gray-300 mt-2 text-lg">
+              {text}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>{extraText}</p>
+      )}
     </div>
   );
 }

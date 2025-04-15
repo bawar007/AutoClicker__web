@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from "react-router";
 import { useContext, useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { AuthContext } from "../../context/auth-context";
-import { Dashboard, Home, Logout } from "@mui/icons-material";
+import { Dashboard, Home, Login, Logout } from "@mui/icons-material";
 
 const Navigation = ({ setAlertMessage }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -92,6 +92,7 @@ const Navigation = ({ setAlertMessage }) => {
                 onClick={() => navigate("/login")}
                 className="logout__btn"
               >
+                <Login />
                 Zaloguj
               </button>
             )}

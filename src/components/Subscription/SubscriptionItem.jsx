@@ -1,6 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import { subscribeHTTP } from "../../utils/subscriptionHTTP";
 import { AuthContext } from "../../context/auth-context";
+import {
+  WorkspacePremiumRounded,
+  WorkspacePremiumTwoTone,
+} from "@mui/icons-material";
 
 const SubscriptionItem = ({ subscription, setDialog }) => {
   const [loading, setLoading] = useState(false);
@@ -81,15 +85,18 @@ const SubscriptionItem = ({ subscription, setDialog }) => {
         boxShadow: "0px 0px 10px black",
       }}
     >
-      <h3 className="text-4xl font-bold text-green-400">
-        {subscription.duration}
+      <h3 className="text-3xl font-bold text-green-400">
+        {subscription.type}
+        {subscription.type !== "Basic" ? (
+          <WorkspacePremiumTwoTone fontSize="30" />
+        ) : null}
       </h3>
-      <h2 className="text-2xl font-bold text-green-400">{subscription.type}</h2>
+
       <div style={{ display: "flex", flexDirection: "column" }}>
         <p className="text-2xl font-semibold text-white mt-2">
           {subscription.price}zł
         </p>
-        {subscription.price === 589.99 && (
+        {subscription.price === 479.99 && (
           <span style={{ color: "gray", fontSize: "12px" }}>
             To {parseInt(subscription.price / 12)}zł/msc oszczędzasz{" "}
             {parseInt(49.99 * 12 - subscription.price)}zł rocznie
