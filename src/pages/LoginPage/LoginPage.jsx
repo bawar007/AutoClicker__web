@@ -2,6 +2,9 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   signInWithEmailAndPassword,
+  browserLocalPersistence,
+  browserSessionPersistence,
+  setPersistence,
 } from "firebase/auth";
 import "./LoginPage.scss";
 import { auth } from "../../firebaseConfig";
@@ -9,20 +12,25 @@ import { NavLink, useNavigate } from "react-router";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/auth-context";
 import { Box, Button, TextField, Typography } from "@mui/material";
+import Checkbox from "@mui/material/Checkbox";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [rememberMe, setRememberMe] = useState(true);
   const navigate = useNavigate();
 
   const authCtx = useContext(AuthContext);
 
   const handleGoogleLogin = async () => {
     const provider = new GoogleAuthProvider();
-
+    const persistence = rememberMe
+      ? browserLocalPersistence
+      : browserSessionPersistence;
     try {
+      await setPersistence(auth, persistence);
       const t = await signInWithPopup(auth, provider);
 
       await authCtx.authenticate(t.user);
@@ -38,6 +46,10 @@ const LoginPage = () => {
     setLoading(true);
 
     try {
+      const persistence = rememberMe
+        ? browserLocalPersistence
+        : browserSessionPersistence;
+      await setPersistence(auth, persistence);
       const userCredential = await signInWithEmailAndPassword(
         auth,
         email,
@@ -170,6 +182,24 @@ const LoginPage = () => {
               >
                 {loading ? "Logowanie..." : "Zaloguj się"}
               </Button>
+
+              <label
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                  margin: "5px 0",
+                }}
+              >
+                <Checkbox
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                  inputProps={{ "aria-label": "controlled" }}
+                />
+                Zapamiętaj mnie
+              </label>
             </form>
           </Box>
           <p className="signup-text">
