@@ -1,10 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { subscribeHTTP } from "../../utils/subscriptionHTTP";
 import { AuthContext } from "../../context/auth-context";
-import {
-  WorkspacePremiumRounded,
-  WorkspacePremiumTwoTone,
-} from "@mui/icons-material";
+import { WorkspacePremiumTwoTone } from "@mui/icons-material";
 
 const SubscriptionItem = ({ subscription, setDialog }) => {
   const [loading, setLoading] = useState(false);
@@ -21,7 +18,7 @@ const SubscriptionItem = ({ subscription, setDialog }) => {
     }));
   };
 
-  const handleClickOpenSubscription = (priceId) => {
+  const handleClickOpenSubscription = (priceId, isTrial) => {
     if (userHaveSub) {
       setDialog((prev) => ({
         ...prev,
@@ -38,11 +35,11 @@ const SubscriptionItem = ({ subscription, setDialog }) => {
         },
       }));
     } else {
-      handleSubscribe(priceId);
+      handleSubscribe(priceId, isTrial);
     }
   };
 
-  const handleSubscribe = async (priceId) => {
+  const handleSubscribe = async (priceId, isTrial) => {
     setLoading(true);
     const user = authCtx.currentUser;
 
@@ -52,7 +49,7 @@ const SubscriptionItem = ({ subscription, setDialog }) => {
       return;
     }
 
-    await subscribeHTTP(user, priceId);
+    await subscribeHTTP(user, priceId, isTrial);
 
     setLoading(false);
   };
@@ -91,10 +88,13 @@ const SubscriptionItem = ({ subscription, setDialog }) => {
           <WorkspacePremiumTwoTone fontSize="30" />
         ) : null}
       </h3>
-
+      {console.log(subscription)}
       <div style={{ display: "flex", flexDirection: "column" }}>
         <p className="text-2xl font-semibold text-white mt-2">
           {subscription.price}zł
+          <span style={{ fontSize: "16px", color: "gray" }}>
+            /{subscription.showMode === "year" ? "rok" : "msc"}
+          </span>
         </p>
         {subscription.price === 479.99 && (
           <span style={{ color: "gray", fontSize: "12px" }}>
@@ -146,9 +146,20 @@ const SubscriptionItem = ({ subscription, setDialog }) => {
           width: "70%",
           padding: "10px",
         }}
-        onClick={() => handleClickOpenSubscription(subscription.priceId)}
+        onClick={() =>
+          handleClickOpenSubscription(
+            subscription.priceId,
+            subscription.isTrial
+          )
+        }
       >
-        {loading ? "Ładowanie..." : userHaveSub ? "Zmień plan" : "Kup Teraz"}
+        {loading
+          ? "Ładowanie..."
+          : userHaveSub
+          ? "Zmień plan"
+          : subscription.isTrial
+          ? "Okres próbny 7dni"
+          : "Kup Teraz"}
       </button>
     </div>
   );
