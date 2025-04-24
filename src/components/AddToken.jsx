@@ -3,22 +3,25 @@ import { AuthContext } from "../context/auth-context";
 import { saveToken } from "../utils/http";
 import SaveIcon from "@mui/icons-material/Save";
 import { Token } from "@mui/icons-material";
-import { Button } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 
 const AddToken = ({ setSnackMessage, setUserTokens }) => {
   const [token, setToken] = useState("");
+  const [tokenName, setTokenName] = useState("");
   const [loading, setLoading] = useState(false);
 
   const authCtx = useContext(AuthContext);
 
-  const handleAddToken = async (token) => {
+  const handleAddToken = async () => {
     const type = authCtx.currentUserInfo.userInfo;
     setLoading(true);
-    if (token) {
+
+    if (token.length !== 0 && tokenName.length !== 0) {
       const t = await saveToken(
         token,
         authCtx.currentUser.uid,
-        type.subscription.type
+        type.subscription.type,
+        tokenName
       );
       if (t === true) {
         setSnackMessage({
@@ -29,9 +32,11 @@ const AddToken = ({ setSnackMessage, setUserTokens }) => {
         });
         setUserTokens((prev) => [
           ...prev,
-          { token: token, dateCreate: new Date().toISOString() },
+          { token: token, dateCreate: new Date().toISOString(), tokenName },
         ]);
+        setToken("");
       } else {
+        setToken("");
         setSnackMessage({
           isVisible: true,
           title: "TOKEN",
@@ -39,34 +44,57 @@ const AddToken = ({ setSnackMessage, setUserTokens }) => {
           message: t.error,
         });
       }
-    } else {
+    } else if (token.length === 0) {
       setSnackMessage({
         isVisible: true,
         title: "TOKEN",
         type: "error",
         message: "Musisz podać token",
       });
+    } else if (tokenName.length === 0) {
+      setSnackMessage({
+        isVisible: true,
+        title: "TOKEN",
+        type: "error",
+        message: "Musisz podać nazwę",
+      });
     }
-    setToken("");
     setLoading(false);
   };
 
   const handleAdd = async () => {
-    if (token) {
-      await handleAddToken(token);
-    }
+    await handleAddToken();
   };
 
   return (
-    <div className="tokens--wrapper__item__cos">
-      <div className="center">
-        <Token />
-        <input
+    <div
+      className="tokens--wrapper__item__cos"
+      style={{ alignItems: "center" }}
+    >
+      <div className="left--name">
+        <TextField
+          label="Nazwa tokenu"
           type="text"
-          onChange={(v) => {
-            setToken(v.target.value);
-          }}
+          margin="normal"
+          style={{ width: "90%" }}
+          value={tokenName}
+          onChange={(e) => setTokenName(e.target.value)}
+          required
+          InputProps={{ style: { color: "white" } }}
+          InputLabelProps={{ style: { color: "white" } }}
+        />
+      </div>
+      <div className="center" style={{ alignItems: "center", width: "70%" }}>
+        <TextField
+          label={`ID Tokenu`}
+          type="text"
+          margin="normal"
+          style={{ width: "90%" }}
           value={token}
+          onChange={(e) => setToken(e.target.value)}
+          required
+          InputProps={{ style: { color: "white" } }}
+          InputLabelProps={{ style: { color: "white" } }}
         />
       </div>
       <div className="btn__wrapper ">
