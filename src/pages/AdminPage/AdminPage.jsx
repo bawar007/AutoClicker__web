@@ -14,7 +14,7 @@ import { Button } from "@mui/material";
 
 import "./AdminPage.scss";
 import UserDashboard from "../UserDashboard/UserDashboard";
-import { EventAvailable, Token } from "@mui/icons-material";
+import { EventAvailable, Token, TokenOutlined } from "@mui/icons-material";
 import Subscription from "../../components/Subscription/Subscriptions";
 import AddToken from "../../components/AddToken";
 
@@ -147,7 +147,19 @@ const AdminPage = ({ setSnackMessage }) => {
                           ).toLocaleDateString()}
                         </span>
                       </div>
-                      <div className="tokenID">
+                      {userTokens[index].tokenName && (
+                        <div className="token__name">
+                          <TokenOutlined />
+                          <span>{userTokens[index].tokenName}</span>
+                          <span className="hovered left--color">Nazwa</span>
+                        </div>
+                      )}
+                      <div
+                        className="tokenID"
+                        style={
+                          userTokens[index].tokenName ? {} : { width: "80%" }
+                        }
+                      >
                         <Token />
                         <span>{userTokens[index].token}</span>
                         <span className="hovered left--color">ID pluginu</span>

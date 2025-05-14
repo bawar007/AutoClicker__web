@@ -2,12 +2,13 @@ import axios from "axios";
 
 const URL = "https://api.autoclicker.pl";
 
-export const saveToken = async (token, uid, type) => {
+export const saveToken = async (token, uid, type, tokenName) => {
   try {
     await axios.post(`${URL}/addtoken`, {
       token,
       uid,
       type,
+      tokenName,
     });
     return true;
   } catch (error) {

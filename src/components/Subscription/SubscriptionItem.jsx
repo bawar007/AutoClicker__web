@@ -1,10 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { subscribeHTTP } from "../../utils/subscriptionHTTP";
 import { AuthContext } from "../../context/auth-context";
-import {
-  WorkspacePremiumRounded,
-  WorkspacePremiumTwoTone,
-} from "@mui/icons-material";
+import { WorkspacePremiumTwoTone } from "@mui/icons-material";
 
 const SubscriptionItem = ({ subscription, setDialog }) => {
   const [loading, setLoading] = useState(false);
@@ -21,7 +18,11 @@ const SubscriptionItem = ({ subscription, setDialog }) => {
     }));
   };
 
+<<<<<<< HEAD
   const handleClickOpenSubscription = (priceId, mode) => {
+=======
+  const handleClickOpenSubscription = (priceId, isTrial) => {
+>>>>>>> ad70f8b0e2147f9f88f8adbffce89fcbaa52e76e
     if (userHaveSub) {
       setDialog((prev) => ({
         ...prev,
@@ -38,11 +39,19 @@ const SubscriptionItem = ({ subscription, setDialog }) => {
         },
       }));
     } else {
+<<<<<<< HEAD
       handleSubscribe(priceId, mode);
     }
   };
 
   const handleSubscribe = async (priceId, mode) => {
+=======
+      handleSubscribe(priceId, isTrial);
+    }
+  };
+
+  const handleSubscribe = async (priceId, isTrial) => {
+>>>>>>> ad70f8b0e2147f9f88f8adbffce89fcbaa52e76e
     setLoading(true);
     const user = authCtx.currentUser;
 
@@ -52,7 +61,11 @@ const SubscriptionItem = ({ subscription, setDialog }) => {
       return;
     }
 
+<<<<<<< HEAD
     await subscribeHTTP(user, priceId, mode);
+=======
+    await subscribeHTTP(user, priceId, isTrial);
+>>>>>>> ad70f8b0e2147f9f88f8adbffce89fcbaa52e76e
 
     setLoading(false);
   };
@@ -91,10 +104,13 @@ const SubscriptionItem = ({ subscription, setDialog }) => {
           <WorkspacePremiumTwoTone fontSize="30" />
         ) : null}
       </h3>
-
+      {console.log(subscription)}
       <div style={{ display: "flex", flexDirection: "column" }}>
         <p className="text-2xl font-semibold text-white mt-2">
           {subscription.price}zł
+          <span style={{ fontSize: "16px", color: "gray" }}>
+            /{subscription.showMode === "year" ? "rok" : "msc"}
+          </span>
         </p>
         {subscription.price === 479.99 && (
           <span style={{ color: "gray", fontSize: "12px" }}>
@@ -149,11 +165,21 @@ const SubscriptionItem = ({ subscription, setDialog }) => {
         onClick={() =>
           handleClickOpenSubscription(
             subscription.priceId,
+<<<<<<< HEAD
             subscription.showMode
+=======
+            subscription.isTrial
+>>>>>>> ad70f8b0e2147f9f88f8adbffce89fcbaa52e76e
           )
         }
       >
-        {loading ? "Ładowanie..." : userHaveSub ? "Zmień plan" : "Kup Teraz"}
+        {loading
+          ? "Ładowanie..."
+          : userHaveSub
+          ? "Zmień plan"
+          : subscription.isTrial
+          ? "Okres próbny 7dni"
+          : "Kup Teraz"}
       </button>
     </div>
   );

@@ -25,6 +25,7 @@ const subsVersions = [
     bestValue: false,
     isActualSub: null,
     showMode: "month",
+    isTrial: true,
   },
   {
     duration: "1 Miesiąc",
@@ -40,6 +41,7 @@ const subsVersions = [
     bestValue: true,
     isActualSub: null,
     showMode: "month",
+    isTrial: true,
   },
   {
     duration: "1 Miesiąc",
@@ -55,6 +57,7 @@ const subsVersions = [
     bestValue: false,
     isActualSub: null,
     showMode: "month",
+    isTrial: true,
   },
   {
     duration: "1 Rok",
@@ -69,6 +72,7 @@ const subsVersions = [
     bestValue: false,
     isActualSub: null,
     showMode: "year",
+    isTrial: false,
   },
   {
     duration: "1 Rok",
@@ -83,6 +87,7 @@ const subsVersions = [
     bestValue: true,
     isActualSub: null,
     showMode: "year",
+    isTrial: false,
   },
   {
     duration: "1 Rok",
@@ -98,6 +103,7 @@ const subsVersions = [
     bestValue: false,
     isActualSub: null,
     showMode: "year",
+    isTrial: false,
   },
   {
     duration: "1 Miesiąc",
