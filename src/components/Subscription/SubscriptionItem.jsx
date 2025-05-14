@@ -21,7 +21,7 @@ const SubscriptionItem = ({ subscription, setDialog }) => {
     }));
   };
 
-  const handleClickOpenSubscription = (priceId) => {
+  const handleClickOpenSubscription = (priceId, mode) => {
     if (userHaveSub) {
       setDialog((prev) => ({
         ...prev,
@@ -38,11 +38,11 @@ const SubscriptionItem = ({ subscription, setDialog }) => {
         },
       }));
     } else {
-      handleSubscribe(priceId);
+      handleSubscribe(priceId, mode);
     }
   };
 
-  const handleSubscribe = async (priceId) => {
+  const handleSubscribe = async (priceId, mode) => {
     setLoading(true);
     const user = authCtx.currentUser;
 
@@ -52,7 +52,7 @@ const SubscriptionItem = ({ subscription, setDialog }) => {
       return;
     }
 
-    await subscribeHTTP(user, priceId);
+    await subscribeHTTP(user, priceId, mode);
 
     setLoading(false);
   };
@@ -146,7 +146,12 @@ const SubscriptionItem = ({ subscription, setDialog }) => {
           width: "70%",
           padding: "10px",
         }}
-        onClick={() => handleClickOpenSubscription(subscription.priceId)}
+        onClick={() =>
+          handleClickOpenSubscription(
+            subscription.priceId,
+            subscription.showMode
+          )
+        }
       >
         {loading ? "Ładowanie..." : userHaveSub ? "Zmień plan" : "Kup Teraz"}
       </button>

@@ -22,14 +22,17 @@ const stripePromise = loadStripe(
 
 const URL = "https://api.autoclicker.pl";
 
-export const subscribeHTTP = async (user, priceId) => {
+export const subscribeHTTP = async (user, priceId, mode) => {
+  const modeS = mode === "oneTime" ? "payment" : "subscription";
+
   try {
     const res = await axios.post(
-      `${URL}/create-checkout-session`,
+      `http://localhost:5000/create-checkout-session`,
       {
         uid: user.uid,
         email: user.email,
         priceId,
+        mode: modeS,
       },
       {
         headers: { "Content-Type": "application/json" },

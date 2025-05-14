@@ -99,6 +99,36 @@ const subsVersions = [
     isActualSub: null,
     showMode: "year",
   },
+  {
+    duration: "1 Miesiąc",
+    type: "Premium 1-msc",
+    price: 49.99,
+    description: [
+      " Pełen dostęp do wersji Premium przez cały rok",
+      " Możliwość dodania większej liczby przeglądarek",
+      " Ekskluzywne aktualizacje i bonusy",
+      " Najlepsza opcja dla firm i zespołów",
+    ],
+    priceId: "price_1ROj5mIbcuVy4eFvOvsZ6Ixt",
+    bestValue: false,
+    isActualSub: null,
+    showMode: "oneTime",
+  },
+  {
+    duration: "3 Miesiące",
+    type: "Premium 3-msc",
+    price: 149.99,
+    description: [
+      " Pełen dostęp do wersji Premium przez cały rok",
+      " Możliwość dodania większej liczby przeglądarek",
+      " Ekskluzywne aktualizacje i bonusy",
+      " Najlepsza opcja dla firm i zespołów",
+    ],
+    priceId: "price_1ROgqjIbcuVy4eFvURCFwZeC",
+    bestValue: true,
+    isActualSub: null,
+    showMode: "oneTime",
+  },
 ];
 
 const Subscription = ({ fromHome }) => {
@@ -108,6 +138,8 @@ const Subscription = ({ fromHome }) => {
     description: "",
     callAccept: () => {},
   });
+
+  const [showOneTime, setShowOneTime] = useState(false);
 
   const [itemsToShow, setItemsToShow] = useState(
     subsVersions.filter((item) => item.showMode === "month")
@@ -156,35 +188,57 @@ const Subscription = ({ fromHome }) => {
       </Dialog>
       <div className="switchSub">
         <div className="switches--text text-5xl font-extrabold text-green-400 leading-tight">
-          Rodzaj Subskrypcji
-        </div>
-        <div
-          className="switches"
-          style={{ boxShadow: "0px 0px 2px oklch(0.792 0.209 151.711)" }}
-        >
-          <div className="switches--btn">
-            <Button
+          Wybierz Rodzaj
+          <div className="switches--text--sub">
+            <span
               onClick={() => {
-                handleSwitchItems("month", "item--year");
+                setShowOneTime(false);
+                handleSwitchItems("month");
               }}
-              className="item--month item--active"
-              variant="text"
+              className={!showOneTime ? "active" : ""}
             >
-              Co miesiąc
-            </Button>
-          </div>
-          <div className="switches--btn">
-            <Button
+              Subskrypcja
+            </span>
+            <span
               onClick={() => {
-                handleSwitchItems("year", "item--month");
+                setShowOneTime(true);
+                handleSwitchItems("oneTime");
               }}
-              className="item--year"
-              variant="text"
+              className={showOneTime ? "active" : ""}
             >
-              Co rok
-            </Button>
+              Jednorazowo
+            </span>
           </div>
         </div>
+        {showOneTime ? null : (
+          <div
+            className="switches"
+            style={{ boxShadow: "0px 0px 2px oklch(0.792 0.209 151.711)" }}
+          >
+            <div className="switches--btn">
+              <Button
+                onClick={() => {
+                  handleSwitchItems("month");
+                }}
+                className="item--month item--active"
+                variant="text"
+              >
+                Co miesiąc
+              </Button>
+            </div>
+            <div className="switches--btn">
+              <Button
+                onClick={() => {
+                  handleSwitchItems("year");
+                }}
+                className="item--year"
+                variant="text"
+              >
+                Co rok
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
       <div className="subs--hub" style={fromHome ? { width: "90%" } : {}}>
         {itemsToShow.map((subscription, index) => (
@@ -200,3 +254,17 @@ const Subscription = ({ fromHome }) => {
 };
 
 export default Subscription;
+
+{
+  /* <div className="switches--btn btn--oneTime">
+<Button
+  onClick={() => {
+    handleSwitchItems("oneTime");
+  }}
+  className="item--oneTime"
+  variant="text"
+>
+  Jednorazowo
+</Button>
+</div> */
+}

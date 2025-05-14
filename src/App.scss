@@ -53,11 +53,40 @@ footer {
     flex-direction: column;
     margin-top: 20px;
     .switches--text {
+      display: flex;
+      flex-direction: column;
       text-align: center;
       margin: 10px 0;
       font-size: 30px;
       text-transform: uppercase;
       letter-spacing: 2px;
+
+      .switches--text--sub {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-evenly;
+        width: 100%;
+        span {
+          padding: 5px;
+          border: 2px solid oklch(0.792 0.209 151.711 / 0.5);
+          transition: all 0.4s ease-in-out;
+          font-size: 20px;
+          &:hover {
+            cursor: pointer;
+            border-color: oklch(0.792 0.209 151.711);
+            background-color: oklch(0.97 0.1 151.711 / 0.4);
+
+            // i odwrotnie – jeśli active jest wcześniej
+          }
+          &.active {
+            border-color: oklch(0.792 0.209 151.711 / 0.5);
+            background-color: oklch(0.97 0.1 151.711 / 0.2);
+          }
+        }
+
+        // Obsługa sytuacji, gdy hoverowany span jest PO aktywnym
+      }
     }
     .switches {
       display: flex;
@@ -67,9 +96,10 @@ footer {
       border-radius: 4px;
       justify-content: center;
       align-content: center;
-
+      flex-wrap: wrap;
+      width: 300px;
       .switches--btn {
-        width: 150px;
+        width: 50%;
         button {
           background-color: rgba(255, 255, 255, 0.1);
           width: 100%;
@@ -78,6 +108,9 @@ footer {
           background-color: #5469d4;
           color: white;
         }
+      }
+      .btn--oneTime {
+        width: 300px;
       }
     }
   }
