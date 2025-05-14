@@ -14,6 +14,8 @@ const pricesTypes = {
   GOLD_YEAR: "price_1REB1GIbcuVy4eFvXnUzyt3q",
   BASIC_MONTH: "price_1RAW3UIbcuVy4eFvi3TA1H2i",
   BASIC_YEAR: "price_1RAW3UIbcuVy4eFvLUXaN5Tr",
+  ONE_TIME_MSC: "price_1ROgqjIbcuVy4eFvpNjAtVJ1",
+  ONE_TIME_3MSC: "price_1ROgqjIbcuVy4eFvURCFwZeC",
 };
 
 const stripePromise = loadStripe(
@@ -22,25 +24,17 @@ const stripePromise = loadStripe(
 
 const URL = "https://api.autoclicker.pl";
 
-<<<<<<< HEAD
-export const subscribeHTTP = async (user, priceId, mode) => {
+export const subscribeHTTP = async (user, priceId, isTrial, mode) => {
   const modeS = mode === "oneTime" ? "payment" : "subscription";
-
-=======
-export const subscribeHTTP = async (user, priceId, isTrial) => {
->>>>>>> ad70f8b0e2147f9f88f8adbffce89fcbaa52e76e
   try {
     const res = await axios.post(
-      `http://localhost:5000/create-checkout-session`,
+      `${URL}/create-checkout-session`,
       {
         uid: user.uid,
         email: user.email,
         priceId,
-<<<<<<< HEAD
         mode: modeS,
-=======
         isTrial: isTrial,
->>>>>>> ad70f8b0e2147f9f88f8adbffce89fcbaa52e76e
       },
       {
         headers: { "Content-Type": "application/json" },
@@ -64,9 +58,14 @@ export const getUserInfo = async (uid) => {
         response.data.user.subscription &&
         response.data.user.subscription.priceId
       ) {
+        const priceIdFromUser = response.data.user.subscription.priceId;
+        const isOneTimePurchase =
+          priceIdFromUser === pricesTypes.ONE_TIME_MSC ||
+          priceIdFromUser === pricesTypes.ONE_TIME_3MSC;
         if (
-          response.data.user.subscription.priceId === pricesTypes.GOLD_MONTH ||
-          response.data.user.subscription.priceId === pricesTypes.GOLD_YEAR
+          priceIdFromUser === pricesTypes.GOLD_MONTH ||
+          priceIdFromUser === pricesTypes.GOLD_YEAR ||
+          isOneTimePurchase
         ) {
           return {
             ...response.data.user,

@@ -110,12 +110,12 @@ const subsVersions = [
     type: "Premium 1-msc",
     price: 49.99,
     description: [
-      " Pełen dostęp do wersji Premium przez cały rok",
-      " Możliwość dodania większej liczby przeglądarek",
+      " Pełen dostęp do wersji Premium przez 1-msc",
+      " Możliwość dodania jednej przeglądarki",
       " Ekskluzywne aktualizacje i bonusy",
       " Najlepsza opcja dla firm i zespołów",
     ],
-    priceId: "price_1ROj5mIbcuVy4eFvOvsZ6Ixt",
+    priceId: "price_1ROgqjIbcuVy4eFvpNjAtVJ1",
     bestValue: false,
     isActualSub: null,
     showMode: "oneTime",
@@ -125,8 +125,8 @@ const subsVersions = [
     type: "Premium 3-msc",
     price: 149.99,
     description: [
-      " Pełen dostęp do wersji Premium przez cały rok",
-      " Możliwość dodania większej liczby przeglądarek",
+      " Pełen dostęp do wersji Premium przez 3-msc",
+      " Możliwość dodania jednej przeglądarki",
       " Ekskluzywne aktualizacje i bonusy",
       " Najlepsza opcja dla firm i zespołów",
     ],
@@ -194,7 +194,7 @@ const Subscription = ({ fromHome }) => {
       </Dialog>
       <div className="switchSub">
         <div className="switches--text text-5xl font-extrabold text-green-400 leading-tight">
-          Wybierz Rodzaj
+          Wybierz Rodzaj Płatności
           <div className="switches--text--sub">
             <span
               onClick={() => {
@@ -260,17 +260,3 @@ const Subscription = ({ fromHome }) => {
 };
 
 export default Subscription;
-
-{
-  /* <div className="switches--btn btn--oneTime">
-<Button
-  onClick={() => {
-    handleSwitchItems("oneTime");
-  }}
-  className="item--oneTime"
-  variant="text"
->
-  Jednorazowo
-</Button>
-</div> */
-}

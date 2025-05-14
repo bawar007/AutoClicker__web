@@ -18,11 +18,7 @@ const SubscriptionItem = ({ subscription, setDialog }) => {
     }));
   };
 
-<<<<<<< HEAD
-  const handleClickOpenSubscription = (priceId, mode) => {
-=======
-  const handleClickOpenSubscription = (priceId, isTrial) => {
->>>>>>> ad70f8b0e2147f9f88f8adbffce89fcbaa52e76e
+  const handleClickOpenSubscription = (priceId, mode, isTrial) => {
     if (userHaveSub) {
       setDialog((prev) => ({
         ...prev,
@@ -39,19 +35,11 @@ const SubscriptionItem = ({ subscription, setDialog }) => {
         },
       }));
     } else {
-<<<<<<< HEAD
-      handleSubscribe(priceId, mode);
+      handleSubscribe(priceId, mode, isTrial);
     }
   };
 
-  const handleSubscribe = async (priceId, mode) => {
-=======
-      handleSubscribe(priceId, isTrial);
-    }
-  };
-
-  const handleSubscribe = async (priceId, isTrial) => {
->>>>>>> ad70f8b0e2147f9f88f8adbffce89fcbaa52e76e
+  const handleSubscribe = async (priceId, mode, isTrial) => {
     setLoading(true);
     const user = authCtx.currentUser;
 
@@ -61,11 +49,7 @@ const SubscriptionItem = ({ subscription, setDialog }) => {
       return;
     }
 
-<<<<<<< HEAD
-    await subscribeHTTP(user, priceId, mode);
-=======
-    await subscribeHTTP(user, priceId, isTrial);
->>>>>>> ad70f8b0e2147f9f88f8adbffce89fcbaa52e76e
+    await subscribeHTTP(user, priceId, isTrial, mode);
 
     setLoading(false);
   };
@@ -75,7 +59,9 @@ const SubscriptionItem = ({ subscription, setDialog }) => {
       if (authCtx.currentUserInfo.userInfo.subscription) {
         const userHaveSub =
           authCtx.currentUserInfo.userInfo.subscription.status === "active";
-        setUserHaveSub(userHaveSub);
+        if (userHaveSub && !authCtx.currentUserInfo.userInfo.oneTimePurchase)
+          setUserHaveSub(userHaveSub);
+        else setUserHaveSub(false);
       } else {
         setUserHaveSub(false);
       }
@@ -104,12 +90,13 @@ const SubscriptionItem = ({ subscription, setDialog }) => {
           <WorkspacePremiumTwoTone fontSize="30" />
         ) : null}
       </h3>
-      {console.log(subscription)}
       <div style={{ display: "flex", flexDirection: "column" }}>
         <p className="text-2xl font-semibold text-white mt-2">
           {subscription.price}zł
           <span style={{ fontSize: "16px", color: "gray" }}>
-            /{subscription.showMode === "year" ? "rok" : "msc"}
+            {subscription.showMode !== "oneTime"
+              ? `/${subscription.showMode === "year" ? "rok" : "msc"}`
+              : ""}
           </span>
         </p>
         {subscription.price === 479.99 && (
@@ -165,11 +152,8 @@ const SubscriptionItem = ({ subscription, setDialog }) => {
         onClick={() =>
           handleClickOpenSubscription(
             subscription.priceId,
-<<<<<<< HEAD
-            subscription.showMode
-=======
+            subscription.showMode,
             subscription.isTrial
->>>>>>> ad70f8b0e2147f9f88f8adbffce89fcbaa52e76e
           )
         }
       >

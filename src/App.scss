@@ -67,11 +67,13 @@ footer {
         align-items: center;
         justify-content: space-evenly;
         width: 100%;
+        margin-top: 10px;
         span {
           padding: 5px;
           border: 2px solid oklch(0.792 0.209 151.711 / 0.5);
           transition: all 0.4s ease-in-out;
           font-size: 20px;
+          width: 50%;
           &:hover {
             cursor: pointer;
             border-color: oklch(0.792 0.209 151.711);
@@ -138,6 +140,11 @@ footer {
       div {
         width: 100% !important;
         margin-bottom: 20px;
+      }
+    }
+    .switches--text--sub {
+      span {
+        font-size: 16px !important;
       }
     }
   }
