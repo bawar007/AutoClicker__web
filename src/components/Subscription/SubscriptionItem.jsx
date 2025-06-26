@@ -58,7 +58,8 @@ const SubscriptionItem = ({ subscription, setDialog }) => {
     if (authCtx.currentUserInfo)
       if (authCtx.currentUserInfo.userInfo.subscription) {
         const userHaveSub =
-          authCtx.currentUserInfo.userInfo.subscription.status === "active";
+          authCtx.currentUserInfo.userInfo.subscription.status === "active" ||
+          authCtx.currentUserInfo.userInfo.subscription.status === "trialing";
         if (userHaveSub && !authCtx.currentUserInfo.userInfo.oneTimePurchase)
           setUserHaveSub(userHaveSub);
         else setUserHaveSub(false);

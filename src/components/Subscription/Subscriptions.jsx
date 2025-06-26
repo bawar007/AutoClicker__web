@@ -34,6 +34,7 @@ const subsVersions = [
     description: [
       " Pełen dostęp do wersji premium",
       " Zwiększona szybkość klikania",
+      " Możliwość dodania większej liczby przeglądarek (2)",
       " Priorytetowe wsparcie techniczne",
       " Brak ograniczeń czasowych i ilości klinięć",
     ],
@@ -49,7 +50,7 @@ const subsVersions = [
     price: 249.99,
     description: [
       "Pełen dostęp do wersji premium",
-      "Możliwość dodania większej liczby przeglądarek",
+      "Możliwość dodania większej liczby przeglądarek (6)",
       "Ekskluzywne aktualizacje i bonusy",
       "Najlepsza oszczędność przy większej skali działania",
     ],
@@ -111,7 +112,7 @@ const subsVersions = [
     price: 49.99,
     description: [
       " Pełen dostęp do wersji Premium przez 1-msc",
-      " Możliwość dodania jednej przeglądarki",
+      " Możliwość dodania dwóch przeglądarek",
       " Ekskluzywne aktualizacje i bonusy",
       " Najlepsza opcja dla firm i zespołów",
     ],
@@ -126,7 +127,7 @@ const subsVersions = [
     price: 149.99,
     description: [
       " Pełen dostęp do wersji Premium przez 3-msc",
-      " Możliwość dodania jednej przeglądarki",
+      " Możliwość dodania dwóch przeglądarek",
       " Ekskluzywne aktualizacje i bonusy",
       " Najlepsza opcja dla firm i zespołów",
     ],

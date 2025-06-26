@@ -342,6 +342,8 @@ const UserDashboard = ({ setSnackMessage }) => {
                     </span>
                   </div>
                   {subscription.status === "active" ||
+                  authCtx.currentUserInfo.userInfo.subscription.status ===
+                    "trialing" ||
                   subscription.status === "canceled" ? (
                     <>
                       <Button

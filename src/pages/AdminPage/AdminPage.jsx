@@ -99,12 +99,15 @@ const AdminPage = ({ setSnackMessage }) => {
 
     const helperUser = async () => {
       const t = authCtx.currentUserInfo.userInfo;
-      if (t.subscription && t.subscription.status === "active") {
+      const userHaveSub =
+        t.subscription.status === "active" ||
+        authCtx.currentUserInfo.userInfo.subscription.status === "trialing";
+      if (t.subscription && userHaveSub) {
         setIsSub(true);
         if (t.subscription.type === premiumTypes.BUSSINESS_GOLD) {
           setTokensTableMap(["", "", "", "", "", ""]);
         } else {
-          setTokensTableMap([""]);
+          setTokensTableMap(["", ""]);
         }
       } else setIsSub(false);
 
