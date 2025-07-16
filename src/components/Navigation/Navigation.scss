@@ -59,15 +59,15 @@ nav {
         content: "";
         background-color: rgba(128, 128, 128, 0.5);
         position: absolute;
-        width: 100vw !important;
+        width: 100% !important;
         height: 2px;
         bottom: 0;
       }
       a,
       .logout__btn {
         justify-content: space-between !important;
-        width: 150px !important;
-        padding: 5px !important;
+        width: 100vw !important;
+        padding: 5px 25% !important;
         svg {
           margin-right: 10px;
         }

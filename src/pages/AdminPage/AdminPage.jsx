@@ -11,6 +11,8 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Button } from "@mui/material";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
 
 import "./AdminPage.scss";
 import UserDashboard from "../UserDashboard/UserDashboard";
@@ -22,6 +24,20 @@ const premiumTypes = {
   BUSSINESS_GOLD: "BUSINESS GOLD",
   GOLD: "GOLD",
   BASIC: "BASIC",
+};
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "black",
+  border: "2px solid #000",
+  boxShadow: 24,
+  pt: 2,
+  px: 4,
+  pb: 3,
 };
 
 const AdminPage = ({ setSnackMessage }) => {
@@ -37,6 +53,15 @@ const AdminPage = ({ setSnackMessage }) => {
     description: "",
     callAccept: () => {},
   });
+  const [openModal, setOpenModal] = useState(true);
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: "smooth", // opcjonalnie: płynne przewijanie
+    });
+  };
 
   const navigate = useNavigate();
 
@@ -99,16 +124,19 @@ const AdminPage = ({ setSnackMessage }) => {
 
     const helperUser = async () => {
       const t = authCtx.currentUserInfo.userInfo;
-      const userHaveSub =
-        t.subscription.status === "active" ||
-        authCtx.currentUserInfo.userInfo.subscription.status === "trialing";
-      if (t.subscription && userHaveSub) {
-        setIsSub(true);
-        if (t.subscription.type === premiumTypes.BUSSINESS_GOLD) {
-          setTokensTableMap(["", "", "", "", "", ""]);
-        } else {
-          setTokensTableMap(["", ""]);
-        }
+
+      if (t.subscription) {
+        const userHaveSub =
+          t.subscription.status === "active" ||
+          authCtx.currentUserInfo.userInfo.subscription.status === "trialing";
+        if (userHaveSub) {
+          setIsSub(true);
+          if (t.subscription.type === premiumTypes.BUSSINESS_GOLD) {
+            setTokensTableMap(["", "", "", "", "", ""]);
+          } else {
+            setTokensTableMap(["", ""]);
+          }
+        } else setIsSub(false);
       } else setIsSub(false);
 
       setIsLoading(false);
@@ -129,6 +157,22 @@ const AdminPage = ({ setSnackMessage }) => {
         setUserTokens={setUserTokens}
         setSnackMessage={setSnackMessage}
       />
+
+      {!isSub && (
+        <Modal
+          open={openModal}
+          onClose={handleCloseModal}
+          aria-labelledby="parent-modal-title"
+          aria-describedby="parent-modal-description"
+        >
+          <Box sx={{ ...style, width: 400 }}>
+            <h3 style={{ fontSize: "24px", marginBottom: "10px" }}>
+              Twoja subskrypcja wygasła
+            </h3>
+            <p>Aby odnowić dostęp do pluginu, musisz wykupić subskrypcję.</p>
+          </Box>
+        </Modal>
+      )}
 
       {isSub ? (
         <div className="admin--panel">
